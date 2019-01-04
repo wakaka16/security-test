@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>登录</title>
+</head>
+<body>
+<!--这里是登录请求点，/login在securityConfig中定义，没有具体的controller，form的method必须使用post才能进入/login-->
+<form action="/login" method="post">
+  <table>
+    <tr>
+      <td>账号：</td>
+      <td><input type="text" name="username"></td>
+    </tr>
+    <tr>
+      <td>密码：</td>
+      <td><input type="password" name="password"></td>
+    </tr>
+    <tr>
+      <td></td>
+      <td><button type="submit">登录</button></td>
+    </tr>
+  </table>
+
+</form>
+</body>
+</html>

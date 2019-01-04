@@ -1,0 +1,66 @@
+#==================================spring boot应用基本配置start==================================#
+spring:
+  application:
+    name: security-test
+  jpa:
+      show-sql: true
+      generate-ddl: false
+      database: MYSQL
+      hibernate:
+        ddl-auto: update
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
+    url: jdbc:mysql://127.0.0.1:3306/security_test?characterEncoding=UTF-8
+    username:  root
+    password:  root
+    driverClassName: com.mysql.jdbc.Driver
+
+author:
+  #主要是拦截后台管理端的路径
+  ignoreUrls: /**
+logging:
+  level: debug
+#==================================spring boot应用基本配置end==================================#
+
+#==================================ssl设置start==================================#
+#1、主配置设置ssl，sslconfig中设置http
+#2、主配置设置http，sslconfig中设置ssl
+#https应用的设置：1、申请证书（固定域名），2、应用内配置，3、修改服务器域名host为申请证书时的域名
+#server:
+#  port: 8899
+#  ssl:
+#    key-store-password: 0kif1y49
+#    key-store: classpath:yjbj.jks
+#    key-alias: alias
+#    key-store-type: JKS
+#==================================ssl设置end==================================#
+
+#==================================thymeleaf start==================================#
+#  thymeleaf:
+#    mode: LEGACYHTML5
+#    encoding: UTF-8
+#    content-type: text/html
+#    #开发时关闭缓存,不然没法看到实时页面
+#    cache: false
+#==================================thymeleaf end==================================#
+---
+#测试用数据库配置
+spring:
+  profiles: test
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
+    url: jdbc:mysql://127.0.0.1:3306/security_test?characterEncoding=UTF-8
+    username:  root
+    password:  root
+    driverClassName: com.mysql.jdbc.Driver
+
+author:
+#主要是拦截后台管理端的路径
+  ignoreUrls: /**
+logging:
+  level: debug
+
+
+
+
+
