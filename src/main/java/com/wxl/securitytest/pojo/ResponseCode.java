@@ -1,11 +1,10 @@
-package com.wxl.securitytest.Pojo;
+package com.wxl.securitytest.pojo;
 
 import java.util.HashMap;
 import java.util.Map;
 
 /**
  * 响应编码，记录了所有执行者向调用者返回的处理结果编码
- * @author yinwenjie
  */
 
 /**

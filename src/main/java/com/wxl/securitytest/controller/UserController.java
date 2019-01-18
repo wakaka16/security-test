@@ -5,9 +5,10 @@ package com.wxl.securitytest.controller;
  * @Date 2018/12/13
  **/
 
-import com.wxl.securitytest.Pojo.ResponseModel;
+import com.wxl.securitytest.pojo.ResponseModel;
 import com.wxl.securitytest.entity.UserEntity;
 import com.wxl.securitytest.service.UserService;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -47,6 +48,12 @@ public class UserController extends BaseController{
   public ResponseModel get(){
     UserEntity admin = userService.getByName("lizhiqiang");
     return this.buildHttpResult(admin,new String[]{"roles"});
+  }
+
+  @GetMapping(value = "/")
+  public ResponseModel findAll(){
+    List<UserEntity> userList = userService.findAll();
+    return this.buildHttpResult(userList,new String[]{"roles"});
   }
 
 

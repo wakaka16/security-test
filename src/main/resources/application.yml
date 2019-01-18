@@ -2,24 +2,7 @@
 spring:
   application:
     name: security-test
-  jpa:
-      show-sql: true
-      generate-ddl: false
-      database: MYSQL
-      hibernate:
-        ddl-auto: update
-  datasource:
-    type: com.alibaba.druid.pool.DruidDataSource
-    url: jdbc:mysql://127.0.0.1:3306/security_test?characterEncoding=UTF-8
-    username:  root
-    password:  root
-    driverClassName: com.mysql.jdbc.Driver
 
-author:
-  #主要是拦截后台管理端的路径
-  ignoreUrls: /admin/login.html,/v1/security/loginFail,/v1/user/hello
-logging:
-  level: debug
 #==================================spring boot应用基本配置end==================================#
 
 #==================================ssl设置start==================================#
@@ -44,6 +27,27 @@ logging:
 #    cache: false
 #==================================thymeleaf end==================================#
 ---
+spring:
+  profiles: demo
+  jpa:
+    show-sql: true
+    generate-ddl: false
+    database: MYSQL
+    hibernate:
+      ddl-auto: update
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
+    url: jdbc:mysql://127.0.0.1:3306/security_test?characterEncoding=UTF-8
+    username:  root
+    password:  root
+    driverClassName: com.mysql.jdbc.Driver
+author:
+  #主要是拦截后台管理端的路径
+  ignoreUrls: /admin/login.html,/v1/security/loginFail,/v1/user/hello
+logging:
+  level: debug
+
+---
 #测试用数据库配置
 spring:
   profiles: test
@@ -54,6 +58,7 @@ spring:
     password:  root
     driverClassName: com.mysql.jdbc.Driver
 
+#授权处理
 author:
 #不需要登录即可直接访问的url
 #  /admin/login.html,/v1/security/loginFail,/v1/user/hello,/login,/v1/security/loginSuccess,/favicon.ico,/v1/security/logoutSuccess

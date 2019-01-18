@@ -1,7 +1,7 @@
 package com.wxl.securitytest.controller;
 
 
-import com.wxl.securitytest.Pojo.ResponseModel;
+import com.wxl.securitytest.pojo.ResponseModel;
 import com.wxl.securitytest.entity.RoleEntity;
 import com.wxl.securitytest.entity.UserEntity;
 import com.wxl.securitytest.repository.UserRepository;

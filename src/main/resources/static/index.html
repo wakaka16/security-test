@@ -1,26 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <script src="js/jquery.min.js"></script>
+  <script src="index.js"></script>
   <meta charset="UTF-8">
-  <title>登录</title>
+  <title>首页</title>
 </head>
 <body>
-<form action="">
-  <table>
-    <tr>
-      <td>账号：</td>
-      <td><input type="text"></td>
-    </tr>
-    <tr>
-      <td>密码：</td>
-      <td><input type="password"></td>
-    </tr>
-    <tr>
-      <td></td>
-      <td><button>登录</button></td>
-    </tr>
-  </table>
-
-</form>
+<h1>欢迎登录</h1>
+<div>
+  <button type="button" onclick="openPageInNewWindow('admin/views/list/list.html')">查看人员列表</button>
+</div>
 </body>
 </html>

@@ -1,7 +1,6 @@
 package com.wxl.securitytest.controller;
 
-import com.wxl.securitytest.Pojo.ResponseModel;
-import com.wxl.securitytest.common.utils.DateUtils;
+import com.wxl.securitytest.pojo.ResponseModel;
 import com.wxl.securitytest.entity.UserEntity;
 import com.wxl.securitytest.service.UserService;
 import java.security.Principal;
@@ -31,20 +30,19 @@ public class SecurityController extends BaseController{
   private UserService userService;
 
   @RequestMapping(value = "/loginFail", method = {RequestMethod.GET, RequestMethod.POST})
-  public String loginFail(HttpServletRequest request){
+  public ResponseModel loginFail(HttpServletRequest request){
     Object attribute = request.getAttribute(WebAttributes.AUTHENTICATION_EXCEPTION);
-    String message = "用户认证异常";
+    Exception e = null;
     if(attribute instanceof InternalAuthenticationServiceException){
       InternalAuthenticationServiceException exception=(InternalAuthenticationServiceException)attribute;
-      message=exception.getMessage();
+      e=new IllegalArgumentException(exception.getMessage());
     }else if(attribute instanceof UsernameNotFoundException){
       UsernameNotFoundException exception = (UsernameNotFoundException) attribute;
-      message=exception.getMessage();
+      e=new IllegalArgumentException(exception.getMessage());
     }else if(attribute instanceof BadCredentialsException){
-      message="密码错误";//提示用户名或密码错误
+      e=new IllegalArgumentException("用户名或密码错误");
     }
-    System.out.println(message);
-    return message;
+    return this.buildHttpResultForException(e);
   }
 
   @RequestMapping(value = "/loginSuccess", method = RequestMethod.POST)

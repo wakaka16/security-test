@@ -1,10 +1,9 @@
 package com.wxl.securitytest.common.exception;
 
-import com.wxl.securitytest.Pojo.ResponseCode;
-import com.wxl.securitytest.Pojo.ResponseModel;
+import com.wxl.securitytest.pojo.ResponseCode;
+import com.wxl.securitytest.pojo.ResponseModel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.security.access.AccessDeniedException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;

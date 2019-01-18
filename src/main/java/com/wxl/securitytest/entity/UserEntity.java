@@ -13,7 +13,6 @@ import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 /**
@@ -39,12 +38,9 @@ public class UserEntity extends UuidEntity {
    * LAZY:只有在@Tansational注解中通过get方法调用才会产生 如：user.getRoles()
    * EAGER:在查询user时，直接就查询出了roles
    */
-  @ManyToMany(fetch = FetchType.LAZY, mappedBy = "users")
+  @ManyToMany(fetch = FetchType.EAGER, mappedBy = "users")
   private Set<RoleEntity> roles;
 
-  @ManyToOne(fetch = FetchType.LAZY)
-  @JoinColumn(name = "test_id")
-  private Test test;
 
   public String getName() {
     return name;
@@ -84,13 +80,5 @@ public class UserEntity extends UuidEntity {
 
   public void setRoles(Set<RoleEntity> roles) {
     this.roles = roles;
-  }
-
-  public Test getTest() {
-    return test;
-  }
-
-  public void setTest(Test test) {
-    this.test = test;
   }
 }

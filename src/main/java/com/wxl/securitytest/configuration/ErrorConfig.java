@@ -1,11 +1,9 @@
 package com.wxl.securitytest.configuration;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.servlet.ErrorPage;
 import org.springframework.boot.web.servlet.ErrorPageRegistrar;
 import org.springframework.boot.web.servlet.ErrorPageRegistry;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpStatus;
 
 /**
  * @author wangxiaolong

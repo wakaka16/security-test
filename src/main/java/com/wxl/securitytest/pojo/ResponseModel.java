@@ -1,4 +1,4 @@
-package com.wxl.securitytest.Pojo;
+package com.wxl.securitytest.pojo;
 
 import java.util.Date;
 

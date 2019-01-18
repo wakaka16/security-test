@@ -6,6 +6,7 @@ import com.wxl.securitytest.entity.UserEntity;
 import com.wxl.securitytest.repository.UserRepository;
 import com.wxl.securitytest.service.UserService;
 import java.util.Date;
+import java.util.List;
 import javax.transaction.Transactional;
 import org.apache.commons.lang3.Validate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -60,6 +61,11 @@ public class UserServiceImpl implements UserService {
     Validate.notNull(loginTime,"登录时间不能为空");
     Validate.notBlank(id,"用户ID不能为空");
     userRepository.modifyLoginTimeById(id,loginTime);
+  }
+
+  @Override
+  public List<UserEntity> findAll() {
+    return userRepository.findAll();
   }
 
 

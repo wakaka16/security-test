@@ -70,7 +70,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
         /**==================设定登录后的url地址==================**/
         .formLogin()
         //  定义当需要用户登录时候，转到的登录页面。(未登录前，访问未授权的url都会重定向到此页面)
-        .loginPage("/admin/login.html")
+        .loginPage("/admin/views/login/login.html")
         //usernameParameter和passwordParameter来自页面，不配置默认为username、passWord
         .usernameParameter("username")
         .passwordParameter("password")

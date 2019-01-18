@@ -1,7 +1,7 @@
 package com.wxl.securitytest.controller;
 
-import com.wxl.securitytest.Pojo.ResponseCode;
-import com.wxl.securitytest.Pojo.ResponseModel;
+import com.wxl.securitytest.pojo.ResponseCode;
+import com.wxl.securitytest.pojo.ResponseModel;
 import com.wxl.securitytest.entity.UserEntity;
 import com.wxl.securitytest.entity.UuidEntity;
 import com.wxl.securitytest.service.UserService;
@@ -13,7 +13,6 @@ import java.lang.reflect.Method;
 import java.security.Principal;
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.Date;
 import java.util.Stack;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
