@@ -2,6 +2,7 @@ package com.wxl.securitytest.configuration;
 
 import com.wxl.securitytest.service.security.CustomUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
@@ -39,16 +40,29 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 public class SecurityConfig extends WebSecurityConfigurerAdapter{
 
   /**
+   * 忽略权限判断的url
+   */
+  @Value("${author.ignoreUrls}")
+  private String[] ignoreUrls;
+
+  /**
    * 配置自己的登录访问接口
    * @param http
    * @throws Exception
    */
   protected void configure(HttpSecurity http) throws Exception {
+    /**
+     * ignoreUrl：不需要登录即可访问（任何人都可以访问）
+     * 非ignoreUrl：必须用户登录
+     * ----登陆之后：拥有对应的角色权限才能访问（根据CustomAccessDecisionManager中的decide）
+     * ---------入库了没有绑定角色或者未入库的url会默认带有admin和ROLE_ANONYMOUS匿名角色权限
+     * 我个人认为：如果没有对url绑定角色，那么所有的登录用户角色就应该都能访问()
+     */
     http
         /**==================设定url的访问权限(请求授权)==================**/
         .authorizeRequests()
         //以下URL不需要被保护的资源(1、后台url 2、静态资源路径)
-       .antMatchers("/admin/login.html","/login","/v1/security/loginFail","/v1/security/loginSuccess").permitAll()
+       .antMatchers(ignoreUrls).permitAll()
         //任何请求,都要拦截
         .anyRequest().authenticated()
         .and()
@@ -57,12 +71,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
         .formLogin()
         //  定义当需要用户登录时候，转到的登录页面。(未登录前，访问未授权的url都会重定向到此页面)
         .loginPage("/admin/login.html")
+        //usernameParameter和passwordParameter来自页面，不配置默认为username、passWord
+        .usernameParameter("username")
+        .passwordParameter("password")
         // 提供给前端登录请求点在form表单中请求，会进入securityService
         .loginProcessingUrl("/login")
         // 登录失败，返回到这里
         .failureForwardUrl("/v1/security/loginFail")
         // 登录成功后，默认到这个URL，返回登录成功后的信息
-        .successForwardUrl("/v1/security/loginSuccess").permitAll()
+        .successForwardUrl("/v1/security/loginSuccess")
         .and()
 
         /**==================设定登出后的url地址==================**/
@@ -70,7 +87,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
         // 登出页面
         .logoutUrl("/v1/security/logout")
         // 登录成功后
-        .logoutSuccessUrl("/v1/security/logoutSuccess").permitAll()
+        .logoutSuccessUrl("/v1/security/logoutSuccess")
         .and()
 
         /**==================关闭csrf==================**/
@@ -80,7 +97,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
         // 持续化登录，登录时间为100天
         .tokenValiditySeconds(100*24*60*60)
         .rememberMeCookieName("persistence")
-        .alwaysRemember(true);
+        .alwaysRemember(true)
+        ;
 
 
   }

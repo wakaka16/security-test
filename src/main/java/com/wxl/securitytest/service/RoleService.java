@@ -7,6 +7,8 @@ import java.util.List;
 
 public interface RoleService {
 
+  RoleEntity getById(String id);
+
   /**
    * 根据用户获取角色信息
    * @param user

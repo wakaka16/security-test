@@ -25,9 +25,32 @@ public class ServiceTest {
     user.setName("lizhiqiang");
     user.setPassword("123456");
     user.setEmail("lizhiqiang@sina.com");
-    user.setDob(new Date());
+    user.setLoginTime(new Date());
     UserEntity userEntity = userService.create(user);
     System.out.println(userEntity);
   }
-
+//  public T findOne(ID id) {
+//    Assert.notNull(id, "The given id must not be null!");
+//    Class<T> domainType = this.getDomainClass();
+//    if (this.metadata == null) {
+//      return this.em.find(domainType, id);
+//    } else {
+//      LockModeType type = this.metadata.getLockModeType();
+//      Map<String, Object> hints = this.getQueryHints();
+//      return type == null ? this.em.find(domainType, id, hints) : this.em.find(domainType, id, type, hints);
+//    }
+//  }
+  /**
+   * getOne通过session，缓存中获取
+   */
+//  public T getOne(ID id) {
+//    Assert.notNull(id, "The given id must not be null!");
+//    return this.em.getReference(this.getDomainClass(), id);
+//    //调用
+//    public <T> T getReference(Class<T> entityClass, Object primaryKey) {
+//      this.checkOpen();
+//
+//      try {
+//        return this.internalGetSession().load(entityClass, (Serializable)primaryKey);
+//  }
 }

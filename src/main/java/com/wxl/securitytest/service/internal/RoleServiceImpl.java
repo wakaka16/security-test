@@ -8,6 +8,7 @@ import com.wxl.securitytest.repository.UserRepository;
 import com.wxl.securitytest.service.RoleService;
 import com.wxl.securitytest.service.UserService;
 import java.util.List;
+import org.apache.commons.lang3.Validate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,6 +21,12 @@ public class RoleServiceImpl implements RoleService {
 
   @Autowired
   private RoleRepository roleRepository;
+
+  @Override
+  public RoleEntity getById(String id) {
+    Validate.notBlank(id,"ID不能为空");
+    return roleRepository.findOne(id);
+  }
 
   @Override
   public List<RoleEntity> findByUser(UserEntity user) {

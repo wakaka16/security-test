@@ -1,13 +1,16 @@
 package com.wxl.securitytest;
 
+import com.alibaba.fastjson.JSONObject;
 import com.wxl.securitytest.entity.ResourceEntity;
 import com.wxl.securitytest.entity.RoleEntity;
 import com.wxl.securitytest.entity.UserEntity;
 import com.wxl.securitytest.repository.ResourceRepository;
 import com.wxl.securitytest.repository.RoleRepository;
 import com.wxl.securitytest.repository.UserRepository;
+import com.wxl.securitytest.service.UserService;
 import java.util.Date;
 import java.util.List;
+import javax.transaction.Transactional;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,12 +31,15 @@ public class SecurityTestApplicationTests {
   @Autowired
   private ResourceRepository resourceRepository;
 
+  @Autowired
+  private UserService userService;
+
   @Test
   public void userTest() {
     UserEntity user = new UserEntity();
     user.setName("18398031356");
     user.setEmail("wxl@163.com");
-    user.setDob(new Date());
+    user.setLoginTime(new Date());
     user.setPassword("wxl");
     //未给此用户设置角色role
     userRepository.save(user);
@@ -95,7 +101,40 @@ public class SecurityTestApplicationTests {
     UserEntity one = userRepository.findOne("56326ea8-6a12-4684-8c81-955836928c54");
     List<RoleEntity> roleList = roleRepository.findDistinctByUsersEquals(one);
     System.out.println(roleList.size());
+  }
+
+
+  @Test
+  public void findOne(){
+    UserEntity one = userRepository.findOne("9053854b-0fba-46bb-bbed-c126079c0407");
+    Object o = JSONObject.toJSON(one);
+    String s = JSONObject.toJSONString(o);
+    System.out.println(s);
+//    {"password":"e10adc3949ba59abbe56e057f20f883e",
+// "dob":1546531200000,
+// "roles":[],"name":"lizhiqiang",
+// "id":"7b04c524-da71-4fc5-9dea-68aabc73d70c",
+// "email":"lizhiqiang@sina.com"}
+
 
   }
+
+  /**
+   * 查询不到会抛出错误，建议使用findOne
+   */
+  @Test
+  @Transactional
+  public void getOne(){
+    UserEntity one = userRepository.getOne("9053854b-0fba-46bb-bbed-c126079c0407");
+    Object o = JSONObject.toJSON(one);
+    String s = JSONObject.toJSONString(o);
+    System.out.println(s);
+  }
+
+  @Test
+  public void modifyLoginTimeById(){
+    userService.modifyLoginTimeById(new Date(),"9053854b-0fba-46bb-bbed-c126079c0407");
+  }
+
 }
 

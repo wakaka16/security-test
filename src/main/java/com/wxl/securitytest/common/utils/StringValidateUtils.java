@@ -2,6 +2,7 @@ package com.wxl.securitytest.common.utils;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import org.apache.commons.lang3.Validate;
 
 
 /**
@@ -58,33 +59,81 @@ public class StringValidateUtils {
   }
 
   /**
-   * 手机号验证.
-   * 
-   * @param str String
+   * 手机号格式验证.
+   * @param mobile String
    * @return 验证通过返回true
    */
-  public static boolean isMobile(String str) {
+  public static boolean isMobile(String mobile) {
+    Validate.notBlank(mobile,"手机号不能为空");
     Pattern p = null;
     Matcher m = null;
     boolean b = false;
     p = Pattern.compile("^[1][3-9][0-9]{9}$"); // 验证手机号
-    m = p.matcher(str);
+    m = p.matcher(mobile);
     b = m.matches();
     return b;
   }
 
   /**
-   * 是否是身份证号码.
-   * 
-   * @param str String
+   * 身份证号码格式验证.
+   * @param idCard String
    * @return 验证通过返回true
    */
-  public static boolean isIdCard(String str) {
+  public static boolean isIdCard(String idCard) {
+    Validate.notBlank(idCard,"身份证号码不能为空");
     Pattern p = null;
     Matcher m = null;
     boolean b = false;
     p = Pattern.compile("(\\d{14}[0-9a-zA-Z])|(\\d{17}[0-9a-zA-Z])"); // 验证身份证号码
-    m = p.matcher(str);
+    m = p.matcher(idCard);
+    b = m.matches();
+    return b;
+  }
+
+  /**
+   * 邮箱格式验证
+   * @param email
+   * @return
+   */
+  public static boolean isEmail(String email) {
+    Validate.notBlank(email,"邮箱不能为空");
+    Pattern p = null;
+    Matcher m = null;
+    boolean b = false;
+    p = Pattern.compile("^[A-Za-z\\d]+([-_.][A-Za-z\\d]+)*@([A-Za-z\\d]+[-.])+[A-Za-z\\d]{2,4}$"); // 验证邮箱
+    m = p.matcher(email);
+    b = m.matches();
+    return b;
+  }
+
+  /**
+   * 密码格式验证
+   * @param password
+   * @return
+   */
+  public static boolean isPassword(String password) {
+    Validate.notBlank(password,"密码不能为空");
+    Pattern p = null;
+    Matcher m = null;
+    boolean b = false;
+    p = Pattern.compile("[a-zA-Z\\d]{6,12}"); // 验证密码
+    m = p.matcher(password);
+    b = m.matches();
+    return b;
+  }
+
+  /**
+   * 用户名格式验证
+   * @param userName
+   * @return
+   */
+  public static boolean isUserName(String userName) {
+    Validate.notBlank(userName,"用户名不能为空");
+    Pattern p = null;
+    Matcher m = null;
+    boolean b = false;
+    p = Pattern.compile("^[a-zA-Z\\u4E00-\\u9FA5\\uf900-\\ufa2d·s]{2,12}$"); // 验证用户名
+    m = p.matcher(userName);
     b = m.matches();
     return b;
   }

@@ -29,7 +29,7 @@ import org.springframework.stereotype.Service;
  **/
 /**
  * 最核心的地方，就是提供某个资源对应的权限定义，即getAttributes方法返回的结果。
- * 此类在初始化时，应该取到所有资源及其对应角色的定义。
+ * 此类在初始化时，应该**取到所有资源及其对应角色权限的定义**。
  */
 @Service
 public class CustomFilterInvocationSecurityMetadataSource implements
@@ -72,7 +72,7 @@ public class CustomFilterInvocationSecurityMetadataSource implements
     return true;
   }
   /**
-   * 该私有方法，将在角色集合为empty的时候，默认填充两个角色“管理员角色”和“匿名角色”
+   * 该私有方法，将在角色集合为empty的时候，默认填充两个角色“匿名角色”
    * 情景：数据库已加入url信息，但是未给url绑定角色，说明并没有设定相关url的权限
    * 如果用户没打算管理url，则url可以任意访问
    * 当url被用户添加到数据库，即使没有绑定给角色，那也只能ADMIN、ROLE_ANONYMOUS（未登录）角色能够访问
@@ -81,8 +81,8 @@ public class CustomFilterInvocationSecurityMetadataSource implements
    */
   private Collection<ConfigAttribute> fillAnonymous(Collection<ConfigAttribute> configs) {
     // 那么就只有两类角色可以访问，一类是ADMIN，另一类是匿名用户ROLE_ANONYMOUS
+    //由于admin用户什么都可以访问的权限，所有不用再次添加权限
     if (configs.isEmpty()) {
-      configs.add(new SecurityConfig("ADMIN"));
       configs.add(new SecurityConfig("ROLE_ANONYMOUS"));
     }
     return configs;
@@ -99,7 +99,7 @@ public class CustomFilterInvocationSecurityMetadataSource implements
   private  Collection<ConfigAttribute> findRolesByUrl(HttpServletRequest request){
     /*
      * 确定功能路径绑定的角色过程如下：
-     * 1、如果当前的路径符合配置的“排除权限”路径，那么直接返回“匿名”角色和“管理员角色”
+     * 1、如果当前的路径符合配置的“排除权限”路径，那么直接返回不需要任何权限的空集合
      * 2、然后才开始正式的判断，因为很可能存在“{}”传参的形式，所以需要进行递归排除、
      * 3、比较Method，返回method设置匹配的功能权限绑定信息
      */
@@ -110,7 +110,7 @@ public class CustomFilterInvocationSecurityMetadataSource implements
     for (String ignoreUrl : ignoreUrls) {
       AntPathRequestMatcher requestMatcher = new AntPathRequestMatcher(ignoreUrl);
       if (requestMatcher.matches(request)) {
-        return new ArrayList<>();//修改为不需要权限信息
+        return new ArrayList<>();
       }
     }
 
@@ -164,6 +164,9 @@ public class CustomFilterInvocationSecurityMetadataSource implements
       }
     }
     if (configs.isEmpty()) {
+      /**
+       * 如果资源不在库中，或在库中但是没有角色权限，那么就只有admin和匿名用户能看
+       */
       return this.fillAnonymous(configs);
     } else {
       return configs;

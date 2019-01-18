@@ -1,8 +1,11 @@
 package com.wxl.securitytest.service;
 
 import com.wxl.securitytest.entity.UserEntity;
+import java.util.Date;
 
 public interface UserService {
+
+  UserEntity getById(String id);
 
   UserEntity getByName(String name);
 
@@ -17,4 +20,11 @@ public interface UserService {
    */
   UserEntity create(UserEntity user);
 
+  /**
+   * 修改用户登录时间
+   * @param loginTime
+   * @param id
+   * @return
+   */
+  void modifyLoginTimeById(Date loginTime,String id);
 }

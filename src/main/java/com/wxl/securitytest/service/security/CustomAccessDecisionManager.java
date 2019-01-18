@@ -48,9 +48,8 @@ public class CustomAccessDecisionManager implements AccessDecisionManager {
       throw new AccessDeniedException("not found any author from this single in user!");
     }
     for (GrantedAuthority grantedAuthority : currentAuthors) {
-      // 发现超级管理员权限 或者 匿名者权限，就直接通过验证
-      if(StringUtils.equals(grantedAuthority.getAuthority(), "ADMIN")
-          || StringUtils.equals(grantedAuthority.getAuthority(), "ROLE_ANONYMOUS")) {
+      // 发现超级管理员权限，就直接通过验证
+      if(StringUtils.equals(grantedAuthority.getAuthority(), "ADMIN")) {
         return;
       }
     }
@@ -67,7 +66,6 @@ public class CustomAccessDecisionManager implements AccessDecisionManager {
     if(configAttributes == null || configAttributes.isEmpty()) {
       return;
     }
-    
     // 3、================
     for (ConfigAttribute securityConfig : configAttributes) {
       for (GrantedAuthority grantedAuthority : currentAuthors) {
@@ -78,7 +76,7 @@ public class CustomAccessDecisionManager implements AccessDecisionManager {
       }
     }
     
-    throw new AccessDeniedException("没有权限（not author）!");
+    throw new AccessDeniedException("CCCCCCCCCCCCCCC（not author）!");
   }
 
   @Override

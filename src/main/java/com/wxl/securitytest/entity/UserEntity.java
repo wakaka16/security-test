@@ -10,10 +10,11 @@ import java.util.Set;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 
 /**
  * 管理员用户
@@ -30,15 +31,20 @@ public class UserEntity extends UuidEntity {
   private String email;//用户邮箱
   @Column(name = "password", length = 120)
   private String password;//用户密码
-  @Temporal(TemporalType.DATE)
-  //第一种：@Temporal(TemporalType.DATE)——》实体类会封装成日期“yyyy-MM-dd”的 Date类型。
-  //第二种：@Temporal(TemporalType.TIME)——》实体类会封装成时间“hh-MM-ss”的 Date类型。
-  //第三种：@Temporal(TemporalType.TIMESTAMP)——》实体类会封装成完整的时间“yyyy-MM-dd hh:MM:ss”的 Date类型。
-  @Column(name = "dob", length = 10)
-  private Date dob;//时间
+  @Column(name = "login_time", length = 10)
+  private Date loginTime;//登录时间
   //角色和用户的关系.
-  @ManyToMany(fetch = FetchType.EAGER, mappedBy = "users")
+  /**
+   * 关于懒加载和积极加载：
+   * LAZY:只有在@Tansational注解中通过get方法调用才会产生 如：user.getRoles()
+   * EAGER:在查询user时，直接就查询出了roles
+   */
+  @ManyToMany(fetch = FetchType.LAZY, mappedBy = "users")
   private Set<RoleEntity> roles;
+
+  @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "test_id")
+  private Test test;
 
   public String getName() {
     return name;
@@ -64,12 +70,12 @@ public class UserEntity extends UuidEntity {
     this.password = password;
   }
 
-  public Date getDob() {
-    return dob;
+  public Date getLoginTime() {
+    return loginTime;
   }
 
-  public void setDob(Date dob) {
-    this.dob = dob;
+  public void setLoginTime(Date loginTime) {
+    this.loginTime = loginTime;
   }
 
   public Set<RoleEntity> getRoles() {
@@ -78,5 +84,13 @@ public class UserEntity extends UuidEntity {
 
   public void setRoles(Set<RoleEntity> roles) {
     this.roles = roles;
+  }
+
+  public Test getTest() {
+    return test;
+  }
+
+  public void setTest(Test test) {
+    this.test = test;
   }
 }

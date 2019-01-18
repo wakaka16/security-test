@@ -1,19 +1,17 @@
 package com.wxl.securitytest.controller;
 
-import com.alibaba.fastjson.JSONObject;
-import com.fasterxml.jackson.databind.util.JSONPObject;
+import com.wxl.securitytest.Pojo.ResponseModel;
+import com.wxl.securitytest.common.utils.DateUtils;
+import com.wxl.securitytest.entity.UserEntity;
+import com.wxl.securitytest.service.UserService;
 import java.security.Principal;
 import java.util.Date;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-import org.apache.catalina.Session;
-import org.springframework.security.access.AccessDeniedException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.InternalAuthenticationServiceException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.web.WebAttributes;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -28,10 +26,12 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @RequestMapping("/v1/security")
-public class SecurityController {
+public class SecurityController extends BaseController{
+  @Autowired
+  private UserService userService;
 
   @RequestMapping(value = "/loginFail", method = {RequestMethod.GET, RequestMethod.POST})
-  public String loginFail(HttpServletRequest request,Principal logUser){
+  public String loginFail(HttpServletRequest request){
     Object attribute = request.getAttribute(WebAttributes.AUTHENTICATION_EXCEPTION);
     String message = "用户认证异常";
     if(attribute instanceof InternalAuthenticationServiceException){
@@ -48,8 +48,22 @@ public class SecurityController {
   }
 
   @RequestMapping(value = "/loginSuccess", method = RequestMethod.POST)
-  public String loginSuccess(Principal logUser) {
-    return logUser.getName()+": 登录成功";
+  public ResponseModel loginSuccess(Principal logUser) {
+    UserEntity userEntity = this.verifyOperatorLogin(logUser);
+    userEntity.setLoginTime(new Date());
+    userService.modifyLoginTimeById(new Date(),userEntity.getId());
+    userEntity.setPassword(null);
+    return this.buildHttpResult(userEntity,new String[]{"roles"});
+  }
+
+  @RequestMapping("/error")
+  public String error(){
+    return "error";
+  }
+
+  @RequestMapping("/error2")
+  public String error2(){
+    return "error2";
   }
 
 }

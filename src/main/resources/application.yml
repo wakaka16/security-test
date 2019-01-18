@@ -17,7 +17,7 @@ spring:
 
 author:
   #主要是拦截后台管理端的路径
-  ignoreUrls: /**
+  ignoreUrls: /admin/login.html,/v1/security/loginFail,/v1/user/hello
 logging:
   level: debug
 #==================================spring boot应用基本配置end==================================#
@@ -55,7 +55,8 @@ spring:
     driverClassName: com.mysql.jdbc.Driver
 
 author:
-#主要是拦截后台管理端的路径
+#不需要登录即可直接访问的url
+#  /admin/login.html,/v1/security/loginFail,/v1/user/hello,/login,/v1/security/loginSuccess,/favicon.ico,/v1/security/logoutSuccess
   ignoreUrls: /**
 logging:
   level: debug
