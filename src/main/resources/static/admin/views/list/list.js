@@ -13,15 +13,15 @@ getDataList = function () {
         //渲染数据
         var html = "";
         for (var i = 0; i < dataList.length; i++) {
-          html += " <tr> <td>"
+          html += " <tr> <th scope=\"row\">"
               +dataList[i].id
-              +"</td><td>"
+              +"</th><th scope=\"row\">"
               + dataList[i].name
-              +" </td><td>"
+              +" </th><th scope=\"row\">"
               + dataList[i].email
-              +"</td><td>"
+              +"</th><th scope=\"row\">"
               + dataList[i].loginTime
-              +"</td> </tr>";
+              +"</th> </tr>";
         }
         $('#tbody').html(html);
         return;
