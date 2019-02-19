@@ -73,5 +73,16 @@ public class SecurityController extends BaseController{
     return this.buildHttpResult();
   }
 
+  /**
+   * 不能拦截的错误
+   * 1、http://localhost:8080/admin/views/login/login.htmlklkk 访问错误地址
+   * 2、crsftoken失效/未传递（非get请求）
+   */
+  @RequestMapping(value = "/error",  method = {RequestMethod.GET, RequestMethod.POST})
+  public ResponseModel error() {
+    ResponseModel responseModel = new ResponseModel(ResponseCode._503);
+    return responseModel;
+  }
+
 
 }

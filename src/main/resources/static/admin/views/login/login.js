@@ -3,6 +3,7 @@ login = function () {
   //1、获取用户名和密码
   var username = $("#username").val();
   var password = $("#password").val();
+  var csrf_token = getCookie("X-XSRF-TOKEN");
   //数据校验
   if (username === '' || password === '') {
     alert("用户名和密码不能为空");
@@ -15,7 +16,8 @@ login = function () {
     headers: {'Content-Type': 'application/x-www-form-urlencoded'},
     data: {
       username: username,
-      password: password
+      password: password,
+      _csrf: csrf_token
     },
     //将请求参数json转换为params
     function(obj) {

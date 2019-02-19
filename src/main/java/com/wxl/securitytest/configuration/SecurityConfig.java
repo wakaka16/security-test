@@ -13,6 +13,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 
 /**
  * @Author wxl
@@ -27,7 +28,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
  * 登陆点/login提供唯一入口
  */
 @Configuration
-@EnableWebSecurity//这个注解的作用等同于
+@EnableWebSecurity(debug = true)//这个注解的作用等同于
 @EnableGlobalMethodSecurity(prePostEnabled=true)//结合@PreAuthorize("hasRole(‘admin‘)")使用，
 //
 //@EnableGlobalMethodSecurity(prePostEnabled=true)
@@ -90,15 +91,33 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
         .logoutSuccessUrl("/v1/security/logoutSuccess")
         .and()
 
-        /**==================关闭csrf==================**/
-        .csrf()
-        .disable()
+        /**==================关闭/开启csrf==================**/
+        .csrf().csrfTokenRepository(this.tokenRepository())
+//        .csrf()
+//        .disable()
+        .and()
+        /**==================开启rememberMe==================**/
         .rememberMe()
         // 持续化登录，登录时间为100天
         .tokenValiditySeconds(100*24*60*60)
         .rememberMeCookieName("persistence")
         .alwaysRemember(true)
         ;
+  }
+
+  /**
+   * CSRF漏洞:第3方服务获取本服务用户的cookie，再进行攻击本服务用户的信息
+   * CSRF不对GET请求进行拦截
+   * 动态口令
+   * @return
+   */
+  @Bean
+  public CookieCsrfTokenRepository tokenRepository(){
+    CookieCsrfTokenRepository tokenRepository = new CookieCsrfTokenRepository();
+    tokenRepository.setCookieHttpOnly(false);
+    tokenRepository.setCookieName("X-XSRF-TOKEN");//项目名-SXRF-TOKEN
+    tokenRepository.setHeaderName("X-XSRF-TOKEN");//项目名-SXRF-TOKEN
+    return tokenRepository;
   }
 
   @Autowired
