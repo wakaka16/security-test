@@ -34,6 +34,11 @@ public class UserController extends BaseController{
   //资源一：忽略资源，任何人都可以访问
   @GetMapping("/hello")
   public String hello(){
+    int i = 0;
+    if(i==0){
+      throw new IllegalArgumentException("业务抛出错误，应该由全部异常捕获进行处理");
+    }
+
     return "hello";
   }
 

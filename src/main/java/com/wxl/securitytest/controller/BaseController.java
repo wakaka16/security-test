@@ -69,7 +69,6 @@ public class BaseController {
   }
 
   //http数据相应
-
   /**
    * =========================开始============================
    */
@@ -136,7 +135,6 @@ public class BaseController {
       errorMsg = e.getMessage();
       LOG.error(e.getMessage(), e);
     }
-    e.printStackTrace();
     ResponseModel result =
         new ResponseModel( null, ResponseCode._501.getCode(), errorMsg);
     return result;
@@ -317,8 +315,6 @@ public class BaseController {
   }
 
   /**
-   * 向response中写入gif图片
-   *
    * @param response HttpServletResponse
    * @param httpType http信息的格式。根据不同的文件类型，http信息格式不一样<br> 1：表示是一张图片 2：表示是一段语音 3：表示是可播放的mpg4视频
    * @param result 写入的byte信息

@@ -7,7 +7,6 @@ import com.wxl.securitytest.service.UserService;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
-import javax.transaction.Transactional;
 import org.apache.commons.lang3.Validate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -35,11 +34,10 @@ public class CustomUserDetailsService implements UserDetailsService {
   /**
    * @param username 通过form表单提交，username==input的name="username"
    */
-
   @Override
   public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
     UserEntity user = this.userService.getByName(username);
-    Validate.notNull(user, "用户名 " + username + " 未找到");//提示用户名或密码错误
+    Validate.notNull(user, "用户名或密码错误(用户名)");
     // 查询用户角色信息
     Set<RoleEntity> roles = user.getRoles();
     Validate.notEmpty(roles, "用户没有角色信息，请联系客服人员！");

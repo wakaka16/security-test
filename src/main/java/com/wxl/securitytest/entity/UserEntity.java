@@ -10,9 +10,7 @@ import java.util.Set;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 /**
@@ -81,4 +79,16 @@ public class UserEntity extends UuidEntity {
   public void setRoles(Set<RoleEntity> roles) {
     this.roles = roles;
   }
+
+
+  //一个部门管辖范围
+//  @ApiModelProperty(hidden = true)
+//  @OneToOne(fetch = FetchType.LAZY,mappedBy="unit")
+//  private JurisdictionEntity jurisdictions;
+//
+//  //所属部门
+//  @ApiModelProperty(hidden = true)
+//  @OneToOne
+//  @JoinColumn(name="unit_id")
+//  private UnitEntity unit;
 }

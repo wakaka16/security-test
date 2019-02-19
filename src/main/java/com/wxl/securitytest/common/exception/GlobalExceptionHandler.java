@@ -15,7 +15,7 @@ import org.springframework.web.multipart.MultipartException;
  **/
 
 /**
- * 全局异常捕获
+ * 全局异常捕获(业务错误，就是服务器错误了，相当于500)
  */
 @ControllerAdvice
 @ResponseBody
@@ -32,8 +32,7 @@ public class GlobalExceptionHandler {
   @ExceptionHandler(Exception.class)
   ResponseModel handleException(Exception e){
     LOG.error(e.getMessage());
-    ResponseModel responseModel = new ResponseModel(ResponseCode._501);
-    responseModel.setErrorMsg("服务器内部错误，请联系管理员");
+    ResponseModel responseModel = new ResponseModel(ResponseCode._502);
     return responseModel;
   }
 

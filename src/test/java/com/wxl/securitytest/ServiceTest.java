@@ -22,9 +22,10 @@ public class ServiceTest {
   @Test
   public void create(){
     UserEntity user = new UserEntity();
-    user.setName("lizhiqiang");
-    user.setPassword("123456");
-    user.setEmail("lizhiqiang@sina.com");
+    user.setId("111111111111111111");
+    user.setName("lizhiqiang2");
+    user.setPassword("1234562");
+    user.setEmail("lizhiqiang2@sina.com");
     user.setLoginTime(new Date());
     UserEntity userEntity = userService.create(user);
     System.out.println(userEntity);
