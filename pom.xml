@@ -18,6 +18,17 @@
   <properties>
     <java.version>1.8</java.version>
   </properties>
+  <dependencyManagement>
+    <dependencies>
+      <dependency>
+        <groupId>org.springframework.cloud</groupId>
+        <artifactId>spring-cloud-dependencies</artifactId>
+        <version>Camden.SR4</version>
+        <type>pom</type>
+        <scope>import</scope>
+      </dependency>
+    </dependencies>
+  </dependencyManagement>
 
   <!--Web安全-->
   <dependencies>
@@ -28,8 +39,8 @@
     </dependency>
     <!--第三方授权：允许第三方登录本应用-->
     <!--<dependency>-->
-      <!--<groupId>org.springframework.security.oauth</groupId>-->
-      <!--<artifactId>spring-security-oauth2</artifactId>-->
+    <!--<groupId>org.springframework.security.oauth</groupId>-->
+    <!--<artifactId>spring-security-oauth2</artifactId>-->
     <!--</dependency>-->
 
     <dependency>
@@ -53,12 +64,24 @@
       <artifactId>druid</artifactId>
       <version>1.1.2</version>
     </dependency>
-
+    <!-- swagger -->
+    <dependency>
+      <groupId>io.springfox</groupId>
+      <artifactId>springfox-swagger2</artifactId>
+      <version>2.7.0</version>
+    </dependency>
+    <dependency>
+      <groupId>io.springfox</groupId>
+      <artifactId>springfox-swagger-ui</artifactId>
+      <version>2.7.0</version>
+    </dependency>
+    <!--test-->
     <dependency>
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-test</artifactId>
       <scope>test</scope>
     </dependency>
+    <!--security-->
     <dependency>
       <groupId>org.springframework.security</groupId>
       <artifactId>spring-security-test</artifactId>
@@ -71,25 +94,29 @@
       <artifactId>commons-lang3</artifactId>
       <version>3.6</version>
     </dependency>
-
     <dependency>
       <groupId>com.alibaba</groupId>
       <artifactId>fastjson</artifactId>
       <version>1.2.35</version>
     </dependency>
-
+    <!--thymeleaf-->
     <!--<dependency>-->
-      <!--<groupId>org.springframework.boot</groupId>-->
-      <!--<artifactId>spring-boot-starter-thymeleaf</artifactId>-->
+    <!--<groupId>org.springframework.boot</groupId>-->
+    <!--<artifactId>spring-boot-starter-thymeleaf</artifactId>-->
     <!--</dependency>-->
     <!--<dependency>-->
-      <!--<groupId>net.sourceforge.nekohtml</groupId>-->
-      <!--<artifactId>nekohtml</artifactId>-->
-      <!--<version>1.9.22</version>-->
+    <!--<groupId>net.sourceforge.nekohtml</groupId>-->
+    <!--<artifactId>nekohtml</artifactId>-->
+    <!--<version>1.9.22</version>-->
     <!--</dependency>-->
     <dependency>
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-devtools</artifactId>
+    </dependency>
+    <!-- feign:spring cloud -->
+    <dependency>
+      <groupId>org.springframework.cloud</groupId>
+      <artifactId>spring-cloud-starter-feign</artifactId>
     </dependency>
   </dependencies>
 

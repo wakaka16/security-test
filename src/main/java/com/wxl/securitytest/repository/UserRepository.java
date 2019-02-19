@@ -34,4 +34,12 @@ public interface UserRepository extends
   @Transactional
   @Query(value = "update t_user set login_time = :loginTime where id = :id",nativeQuery = true)
   void modifyLoginTimeById(@Param("id")String id,@Param("loginTime")Date loginTime);
+
+
+//  @Query("select distinct e from EventEntity e "
+//      + " left join fetch e.handlers"
+//      + " left join fetch e.police"
+//      + " left join fetch e.reporter"
+//      + " where e.id = :id")
+//  EventEntity findById(@Param("id") String id);
 }

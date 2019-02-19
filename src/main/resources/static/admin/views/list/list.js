@@ -6,7 +6,6 @@ getDataList = function () {
     dataType: "json",
     headers: {'Content-Type': 'application/x-www-form-urlencoded'},
     success: function (res) {
-      alert(res)
       console.log(res);
       if (res.code == 200) {
         var dataList = res.data;
@@ -24,10 +23,8 @@ getDataList = function () {
               +"</th> </tr>";
         }
         $('#tbody').html(html);
-        return;
       } else {
         alert(res.errorMsg);
-        return;
       }
     },
     error: function (err) {

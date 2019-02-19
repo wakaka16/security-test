@@ -69,7 +69,6 @@ public class BaseController {
   }
 
   //http数据相应
-
   /**
    * =========================开始============================
    */
@@ -136,7 +135,6 @@ public class BaseController {
       errorMsg = e.getMessage();
       LOG.error(e.getMessage(), e);
     }
-    e.printStackTrace();
     ResponseModel result =
         new ResponseModel( null, ResponseCode._501.getCode(), errorMsg);
     return result;

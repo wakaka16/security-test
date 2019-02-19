@@ -32,10 +32,8 @@ login = function () {
         setCookie('USERNAME',res.data.name);
         setCookie('USERID',res.data.id);
         openPageInLocation('../index/index.html');
-        return;
       }else{
         alert(res.errorMsg);
-        return;
       }
     },
     error: function(err){

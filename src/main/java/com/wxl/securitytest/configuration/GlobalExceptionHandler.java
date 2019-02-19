@@ -1,7 +1,7 @@
-package com.wxl.securitytest.common.exception;
+package com.wxl.securitytest.configuration;
 
-import com.wxl.securitytest.pojo.ResponseCode;
-import com.wxl.securitytest.pojo.ResponseModel;
+import com.vanda.alarm.controller.mvc.ResponseCode;
+import com.vanda.alarm.controller.mvc.ResponseModel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -15,10 +15,9 @@ import org.springframework.web.multipart.MultipartException;
  **/
 
 /**
- * 全局异常捕获(业务错误，就是服务器错误了，相当于500)
+ * 全局异常捕获
  */
 @ControllerAdvice
-@ResponseBody
 public class GlobalExceptionHandler {
   /**
    * 日志
@@ -30,18 +29,17 @@ public class GlobalExceptionHandler {
    * @return
    */
   @ExceptionHandler(Exception.class)
+  @ResponseBody
   ResponseModel handleException(Exception e){
-    LOG.error(e.getMessage());
-    ResponseModel responseModel = new ResponseModel(ResponseCode._502);
-    return responseModel;
-  }
-
-
-  @ExceptionHandler(MultipartException.class)
-  ResponseModel handleMultipartException(MultipartException e){
-    LOG.error(e.getMessage());
-    ResponseModel responseModel = new ResponseModel(ResponseCode._501);
-    responseModel.setErrorMsg("上传文件失败");
+    ResponseModel responseModel = new ResponseModel();
+    responseModel.setTimestemp(System.currentTimeMillis());
+    responseModel.setResponseCode(ResponseCode._501);
+    if(e instanceof MultipartException){
+      responseModel.setErrorMsg("上传文件失败");
+    }else{
+      LOG.error(e.getMessage(),e );
+      responseModel.setErrorMsg("服务器内部错误，请联系管理员");
+    }
     return responseModel;
   }
 }

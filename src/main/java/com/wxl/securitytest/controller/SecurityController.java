@@ -1,5 +1,6 @@
 package com.wxl.securitytest.controller;
 
+import com.wxl.securitytest.pojo.ResponseCode;
 import com.wxl.securitytest.pojo.ResponseModel;
 import com.wxl.securitytest.entity.UserEntity;
 import com.wxl.securitytest.service.UserService;
@@ -29,6 +30,14 @@ public class SecurityController extends BaseController{
   @Autowired
   private UserService userService;
 
+  /**
+   * 这个登录失败会报出三种异常：
+   * 用户信息不存在（用户名或密码错误）
+   * 用户角色信息不存在
+   * 您尚未登录，请先进行登录...
+   * @param request
+   * @return
+   */
   @RequestMapping(value = "/loginFail", method = {RequestMethod.GET, RequestMethod.POST})
   public ResponseModel loginFail(HttpServletRequest request){
     Object attribute = request.getAttribute(WebAttributes.AUTHENTICATION_EXCEPTION);
@@ -40,7 +49,9 @@ public class SecurityController extends BaseController{
       UsernameNotFoundException exception = (UsernameNotFoundException) attribute;
       e=new IllegalArgumentException(exception.getMessage());
     }else if(attribute instanceof BadCredentialsException){
-      e=new IllegalArgumentException("用户名或密码错误");
+      e=new IllegalArgumentException("用户名或密码错误(密码)");
+    }else{
+      e=new IllegalArgumentException("您尚未登录，请先进行登录...");
     }
     return this.buildHttpResultForException(e);
   }
@@ -54,14 +65,13 @@ public class SecurityController extends BaseController{
     return this.buildHttpResult(userEntity,new String[]{"roles"});
   }
 
-  @RequestMapping("/error")
-  public String error(){
-    return "error";
+  /**
+   * 成功登出
+   */
+  @RequestMapping(value = "/logoutSuccess", method = RequestMethod.GET)
+  public ResponseModel logoutSuccess() {
+    return this.buildHttpResult();
   }
 
-  @RequestMapping("/error2")
-  public String error2(){
-    return "error2";
-  }
 
 }

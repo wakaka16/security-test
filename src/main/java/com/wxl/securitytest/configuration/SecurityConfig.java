@@ -99,13 +99,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
         .rememberMeCookieName("persistence")
         .alwaysRemember(true)
         ;
-
-
   }
 
   @Autowired
   public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-    auth.authenticationProvider(customDaoAuthenticationProvider());
+    auth.authenticationProvider(daoAuthenticationProvider());
   }
 
   /**
@@ -117,9 +115,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
     return new Md5PasswordEncoder();
   }
 
-
   @Bean
-  public DaoAuthenticationProvider customDaoAuthenticationProvider(){
+  public DaoAuthenticationProvider daoAuthenticationProvider(){
     DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
     provider.setHideUserNotFoundExceptions(false);
     provider.setUserDetailsService(userDetailsService());

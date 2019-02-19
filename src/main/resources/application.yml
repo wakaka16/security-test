@@ -43,11 +43,16 @@ spring:
     driverClassName: com.mysql.jdbc.Driver
 author:
   #主要是拦截后台管理端的路径
-  ignoreUrls: /admin/login.html,/v1/security/loginFail,/v1/user/hello
+  ignoreUrls: /admin/**,/v1/security/loginFail,/v1/user/hello,/v1/security/loginSuccess
 logging:
   level: debug
 
 ---
+#测试开发时，tomcat临时运行文件路径
+server:
+  port: 7770
+  tomcat:
+    basedir: E:/test
 #测试用数据库配置
 spring:
   profiles: test
