@@ -19,9 +19,11 @@
 <div class="container" style="margin-top: 15%">
   <div class="form-signin">
     <h2 class="form-signin-heading">请登录</h2>
-      <input class="input-block-level" id="username" type="text" placeholder="请输入账号">
-      <input class="input-block-level" id="password" type="password" placeholder="请输入密码">
-      <button class="btn btn-large btn-primary" onclick="login()">登录</button>
+    <input class="input-block-level" id="username" type="text" placeholder="请输入账号">
+    <input class="input-block-level" id="password" type="password" placeholder="请输入密码">
+    <button class="btn btn-large btn-primary" onclick="login()">登录</button>
+    <!--在异步请求中不同与form表单，checkbox不能选择性提交-->
+    <p style="text-align: center"><label><input class="btn btn-primary" type="checkbox" id="rememberme" name="remember-me" value="off" onclick="rememberme()"/>记住密码</label></p>
   </div>
 </div>
 

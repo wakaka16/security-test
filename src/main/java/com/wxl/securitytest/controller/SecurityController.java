@@ -6,6 +6,7 @@ import com.wxl.securitytest.entity.UserEntity;
 import com.wxl.securitytest.service.UserService;
 import java.security.Principal;
 import java.util.Date;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -69,18 +70,25 @@ public class SecurityController extends BaseController{
    * 成功登出
    */
   @RequestMapping(value = "/logoutSuccess", method = RequestMethod.GET)
-  public ResponseModel logoutSuccess() {
+  public ResponseModel logoutSuccess(HttpServletRequest request) {
+    Cookie[] cookies = request.getCookies();
+    for(int i = 0;i<cookies.length;i++){
+      if(cookies[i].getName().equals("remember_me")){
+        cookies[i].setMaxAge(0);//立即清除cookie
+      }
+    }
     return this.buildHttpResult();
   }
 
   /**
    * 不能拦截的错误
-   * 1、http://localhost:8080/admin/views/login/login.htmlklkk 访问错误地址
-   * 2、crsftoken失效/未传递（非get请求）
+   * 1、http://localhost:8080/admin/views/login/login.htmlklkk 登陆成功后访问错误地址（获取不到）
+   * 2、crsftoken失效/未传递（不能获取）
+   * 3、返回404，找不到资源
    */
   @RequestMapping(value = "/error",  method = {RequestMethod.GET, RequestMethod.POST})
   public ResponseModel error() {
-    ResponseModel responseModel = new ResponseModel(ResponseCode._503);
+    ResponseModel responseModel = new ResponseModel(ResponseCode._404);
     return responseModel;
   }
 

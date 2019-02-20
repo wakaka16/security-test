@@ -3,7 +3,8 @@ login = function () {
   //1、获取用户名和密码
   var username = $("#username").val();
   var password = $("#password").val();
-  var csrf_token = getCookie("X-XSRF-TOKEN");
+  var remember_me = $("#rememberme").val();
+  var csrf_token = getCookie("XSRF-TOKEN");
   //数据校验
   if (username === '' || password === '') {
     alert("用户名和密码不能为空");
@@ -17,7 +18,8 @@ login = function () {
     data: {
       username: username,
       password: password,
-      _csrf: csrf_token
+      _csrf: csrf_token,
+      remember_me: remember_me
     },
     //将请求参数json转换为params
     function(obj) {
@@ -51,3 +53,13 @@ setCookie = function(c_name,value,expiredays){
   document.cookie=c_name+ "=" +escape(value)+
       ((expiredays==null) ? "" : ";expires="+exdate.toGMTString())
 };
+
+//
+rememberme = function(){
+  if($("#rememberme").val()=='off'){
+    $("#rememberme").val("on");
+  }else{
+    $("#rememberme").val("off");
+  }
+
+}

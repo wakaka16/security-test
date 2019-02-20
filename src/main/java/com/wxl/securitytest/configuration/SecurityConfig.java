@@ -21,15 +21,11 @@ import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
  **/
 
 /**
- * 安全配置：
- * 每一次访问url都会经过这里，
- * 不需要被保护的URL是可以直接访问
- * 被保护的任何URL在访问时，都会进入accessFail
- * 登陆点/login提供唯一入口
+ * 安全配置： 每一次访问url都会经过这里， 不需要被保护的URL是可以直接访问 被保护的任何URL在访问时，都会进入accessFail 登陆点/login提供唯一入口
  */
 @Configuration
-@EnableWebSecurity(debug = true)//这个注解的作用等同于
-@EnableGlobalMethodSecurity(prePostEnabled=true)//结合@PreAuthorize("hasRole(‘admin‘)")使用，
+@EnableWebSecurity//这个注解的作用等同于
+@EnableGlobalMethodSecurity(prePostEnabled = true)//结合@PreAuthorize("hasRole(‘admin‘)")使用，
 //
 //@EnableGlobalMethodSecurity(prePostEnabled=true)
 //         使用表达式时间方法级别的安全性 4个注解可用
@@ -38,7 +34,7 @@ import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 //@PostAuthorize 允许方法调用,但是如果表达式计算结果为false,将抛出一个安全性异常
 //@PostFilter 允许方法调用,但必须按照表达式来过滤方法的结果
 //@PreFilter 允许方法调用,但必须在进入方法之前过滤输入值
-public class SecurityConfig extends WebSecurityConfigurerAdapter{
+public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
   /**
    * 忽略权限判断的url
@@ -48,8 +44,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 
   /**
    * 配置自己的登录访问接口
-   * @param http
-   * @throws Exception
    */
   protected void configure(HttpSecurity http) throws Exception {
     /**
@@ -63,18 +57,18 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
         /**==================设定url的访问权限(请求授权)==================**/
         .authorizeRequests()
         //以下URL不需要被保护的资源(1、后台url 2、静态资源路径)
-       .antMatchers(ignoreUrls).permitAll()
+        .antMatchers(ignoreUrls).permitAll()
         //任何请求,都要拦截
         .anyRequest().authenticated()
         .and()
 
         /**==================设定登录后的url地址==================**/
         .formLogin()
-        //  定义当需要用户登录时候，转到的登录页面。(未登录前，访问未授权的url都会重定向到此页面)
+        //  定义当需要用户登录时候，转到的登录页面。(未登录前，访问未授权的url(错误的)都会重定向到此页面，登录后404)
         .loginPage("/admin/views/login/login.html")
         //usernameParameter和passwordParameter来自页面，不配置默认为username、passWord
-        .usernameParameter("username")
-        .passwordParameter("password")
+        .usernameParameter("username")//接受参数
+        .passwordParameter("password")//接受参数
         // 提供给前端登录请求点在form表单中请求，会进入securityService
         .loginProcessingUrl("/login")
         // 登录失败，返回到这里
@@ -96,27 +90,25 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 //        .csrf()
 //        .disable()
         .and()
-        /**==================开启rememberMe==================**/
+        /**==================开启rememberMe(会话状态保持)==================**/
         .rememberMe()
-        // 持续化登录，登录时间为100天
-        .tokenValiditySeconds(100*24*60*60)
-        .rememberMeCookieName("persistence")
-        .alwaysRemember(true)
-        ;
+        .tokenValiditySeconds(100 * 24 * 60 * 60)//设置参数，持续化登录，登录时间为100天//默认0关闭浏览器失效
+        .rememberMeCookieName("remember_me")//设置参数，默认remember-me
+        .rememberMeParameter("remember_me")//接受参数，默认remember-me，但是页面不支持，所以重新定义
+//        .alwaysRemember(true)//后台服务主动开启remember-me功能
+    ;
   }
 
   /**
-   * CSRF漏洞:第3方服务获取本服务用户的cookie，再进行攻击本服务用户的信息
-   * CSRF不对GET请求进行拦截
-   * 动态口令
-   * @return
+   * CSRF漏洞:第3方服务获取本服务用户的cookie，再进行攻击本服务用户的信息 1、CSRF不对GET、HEAD、。。请求进行拦截 2、动态口令生成不同的token值
+   * 3、通过比较cookie中的c_token和表单传入的_csrf进行比较（cookie和参数都可以修改，但是cookie只存在与本用户的客户端，第三方无法修改）
    */
   @Bean
-  public CookieCsrfTokenRepository tokenRepository(){
+  public CookieCsrfTokenRepository tokenRepository() {
     CookieCsrfTokenRepository tokenRepository = new CookieCsrfTokenRepository();
     tokenRepository.setCookieHttpOnly(false);
-    tokenRepository.setCookieName("X-XSRF-TOKEN");//项目名-SXRF-TOKEN
-    tokenRepository.setHeaderName("X-XSRF-TOKEN");//项目名-SXRF-TOKEN
+    tokenRepository.setCookieName("XSRF-TOKEN");
+    tokenRepository.setHeaderName("X-XSRF-TOKEN");
     return tokenRepository;
   }
 
@@ -127,7 +119,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 
   /**
    * 用户密码的加密方式为MD5加密(spring boot 版本1.4.5)
-   * @return
    */
   @Bean
   public Md5PasswordEncoder passwordEncoder() {
@@ -135,16 +126,16 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
   }
 
   @Bean
-  public DaoAuthenticationProvider daoAuthenticationProvider(){
+  public DaoAuthenticationProvider daoAuthenticationProvider() {
     DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
     provider.setHideUserNotFoundExceptions(false);
     provider.setUserDetailsService(userDetailsService());
     provider.setPasswordEncoder(passwordEncoder());
-    return  provider;
+    return provider;
   }
 
   @Bean
-  public UserDetailsService userDetailsService(){
+  public UserDetailsService userDetailsService() {
     return new CustomUserDetailsService();
   }
 }

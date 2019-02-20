@@ -53,8 +53,8 @@ public class TestController extends BaseController {
 //  }
 
   @GetMapping("/hello")
-  public void hello(){
-    System.out.println("hello");
+  public String hello(){
+    return "hello";
   }
 
   //findOne
