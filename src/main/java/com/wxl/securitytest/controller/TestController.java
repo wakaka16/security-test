@@ -10,6 +10,7 @@ import com.wxl.securitytest.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -52,8 +53,8 @@ public class TestController extends BaseController {
 //  }
 
   @GetMapping("/hello")
-  public void hello(){
-    System.out.println("hello");
+  public String hello(){
+    return "hello";
   }
 
   //findOne
@@ -72,6 +73,11 @@ public class TestController extends BaseController {
     one.setEmail("wakakaFlush@qq.com");
     userService.create(one);
     return  this.buildHttpResult(one);
+  }
+
+  @PostMapping(value = "/csrfPost")
+  public String csrfPost(){
+    return "csrfPost";
   }
 
 

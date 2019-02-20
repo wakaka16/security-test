@@ -3,6 +3,28 @@ spring:
   application:
     name: security-test
 
+#swagger
+swagger:
+  version: v0.0.9
+
+#阿里
+ali:
+  satisficerCodeTemp: 1111
+  handleCodeTemp: 1111
+  aliAppcode: 1111
+
+filePath:
+  # 最大允许的单个文件上传大小(单位MB)
+  maxFileSize: 10
+  #图片存储的根路径 D:/data_spring/alarm/file/
+  fileRoot: D:/data_spring/alarm/file
+#  远程调用im服务器的地址
+im:
+  url: http://11.11.11.11:1111
+#  视频转码配置
+video:
+  convert-config: /data_spring/t_gbpx/convert.sh
+
 #==================================spring boot应用基本配置end==================================#
 
 #==================================ssl设置start==================================#

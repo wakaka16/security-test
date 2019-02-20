@@ -17,7 +17,7 @@ import org.springframework.web.multipart.MultipartException;
 /**
  * 全局异常捕获(业务错误，就是服务器错误了，相当于500)
  */
-@ControllerAdvice
+//@ControllerAdvice
 @ResponseBody
 public class GlobalExceptionHandler {
   /**
