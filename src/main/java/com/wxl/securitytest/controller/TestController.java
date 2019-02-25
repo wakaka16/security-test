@@ -1,6 +1,7 @@
 package com.wxl.securitytest.controller;
 
 
+import com.wxl.securitytest.common.aop.LoggerManage;
 import com.wxl.securitytest.pojo.ResponseModel;
 import com.wxl.securitytest.entity.RoleEntity;
 import com.wxl.securitytest.entity.UserEntity;
@@ -53,6 +54,7 @@ public class TestController extends BaseController {
 //  }
 
   @GetMapping("/hello")
+  @LoggerManage(description = "你好接口")
   public String hello(){
     return "hello";
   }

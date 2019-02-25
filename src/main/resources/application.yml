@@ -49,6 +49,10 @@ video:
 #    cache: false
 #==================================thymeleaf end==================================#
 ---
+server:
+  port: 8080
+  tomcat:
+    basedir: E:/test
 spring:
   profiles: demo
   jpa:
@@ -65,7 +69,7 @@ spring:
     driverClassName: com.mysql.jdbc.Driver
 author:
   #主要是拦截后台管理端的路径
-  ignoreUrls: /admin/**,/v1/security/loginFail,/v1/user/hello,/v1/security/loginSuccess
+  ignoreUrls: /admin/**,/v1/security/loginFail,/v1/user/hello,/v1/security/loginSuccess,/v1/log/**
 logging:
   level: debug
 

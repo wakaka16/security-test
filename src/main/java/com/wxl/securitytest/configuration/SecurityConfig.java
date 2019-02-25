@@ -107,7 +107,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
   public CookieCsrfTokenRepository tokenRepository() {
     CookieCsrfTokenRepository tokenRepository = new CookieCsrfTokenRepository();
     tokenRepository.setCookieHttpOnly(false);
-    tokenRepository.setCookieName("XSRF-TOKEN");
+    tokenRepository.setCookieName("X-XSRF-TOKEN");
     tokenRepository.setHeaderName("X-XSRF-TOKEN");
     return tokenRepository;
   }

@@ -30,9 +30,9 @@ import org.springframework.web.servlet.ModelAndView;
 public class BaseController {
 
   /**
-   * 日志
+   * 日志:this.getClass() 可以定位到具体的controller
    */
-  protected static final Logger LOG = LoggerFactory.getLogger(BaseController.class);
+  protected final Logger LOG = LoggerFactory.getLogger(this.getClass());
 
   @Autowired
   private UserService userService;
