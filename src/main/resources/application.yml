@@ -69,7 +69,7 @@ spring:
     driverClassName: com.mysql.jdbc.Driver
 author:
   #主要是拦截后台管理端的路径
-  ignoreUrls: /admin/**,/v1/security/loginFail,/v1/user/hello,/v1/security/loginSuccess,/v1/log/**
+  ignoreUrls: /admin/**,/v1/security/loginFail,/v1/user/hello,/v1/security/loginSuccess,/v1/log/**,/v1/test/**
 logging:
   level: debug
 

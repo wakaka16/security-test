@@ -7,6 +7,7 @@ import org.aspectj.lang.annotation.AfterReturning;
 import org.aspectj.lang.annotation.AfterThrowing;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.stereotype.Service;
 
 @Aspect
@@ -26,6 +27,11 @@ public class LoggerAdvice {
     return param.toString();
   }
 
+  /**
+   * 在com.wxl.securitytest..*内，并且注解有loggerManage的进行通知增强
+   * @param joinPoint
+   * @param loggerManage
+   */
   @Before("within(com.wxl.securitytest..*) && @annotation(loggerManage)")
   public void addBeforeLogger(JoinPoint joinPoint, LoggerManage loggerManage) {
     logger.info("执行 " + loggerManage.description() + " 开始");
