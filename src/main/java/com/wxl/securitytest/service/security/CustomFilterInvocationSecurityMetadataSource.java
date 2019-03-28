@@ -48,7 +48,7 @@ public class CustomFilterInvocationSecurityMetadataSource implements
 
 
   /**
-   * 将访问url的所有角色添加到Collection<ConfigAttribute>
+   * 将访问url所需要的所有角色添加到Collection<ConfigAttribute>
    * @param o
    * @return
    * @throws IllegalArgumentException
@@ -105,16 +105,16 @@ public class CustomFilterInvocationSecurityMetadataSource implements
      */
     String url = request.getRequestURI();
     String method = request.getMethod();
-    List<ConfigAttribute> configs = new ArrayList<>();
+    List<ConfigAttribute> configAttributes = new ArrayList<>();
     // 1、====================
     for (String ignoreUrl : ignoreUrls) {
       AntPathRequestMatcher requestMatcher = new AntPathRequestMatcher(ignoreUrl);
       if (requestMatcher.matches(request)) {
-        return new ArrayList<>();
+        return this.fillAnonymous(configAttributes);
       }
     }
 
-    // 2、===================
+    // 2、获取当前访问路径匹配到的数据库录入的资源
     int index = 0;
     String matchUrl = "";
     List<ResourceEntity> currentResources = null;
@@ -148,8 +148,7 @@ public class CustomFilterInvocationSecurityMetadataSource implements
       throw new IllegalArgumentException(e.getMessage());
     }
 
-    // 3、===================
-    // 这里在进行request method的过滤，只有满足method方式的角色名，才能写入到configs集合中
+    // 3、获取当前访问路径方法匹配到的数据库录入的资源方法，获取角色，并录入到configAttributes中
     for (ResourceEntity resource : currentResources) {
       String methods = resource.getMethods();
       if (methods.indexOf(method) != -1) {
@@ -158,18 +157,18 @@ public class CustomFilterInvocationSecurityMetadataSource implements
         if (roles != null && !roles.isEmpty()) {
           for (RoleEntity role : roles) {
             SecurityConfig securityConfig = new SecurityConfig(role.getName());
-            configs.add(securityConfig);
+            configAttributes.add(securityConfig);
           }
         }
       }
     }
-    if (configs.isEmpty()) {
+    if (configAttributes.isEmpty()) {
       /**
-       * 如果资源不在库中，或在库中但是没有角色权限，那么就只有admin和匿名用户能看
+       * 如果用户访问的资源不在库中，或在库中但是没有角色权限，那么就只有admin和匿名用户能看
        */
-      return this.fillAnonymous(configs);
+      return this.fillAnonymous(configAttributes);
     } else {
-      return configs;
+      return configAttributes;
     }
   }
 }

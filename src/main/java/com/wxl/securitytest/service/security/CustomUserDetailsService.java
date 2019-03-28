@@ -47,8 +47,6 @@ public class CustomUserDetailsService implements UserDetailsService {
       SimpleGrantedAuthority authority = new SimpleGrantedAuthority(role.getName());
       authorities.add(authority);
     }
-    //
-    authorities.add(new SimpleGrantedAuthority("ROLE_ANONYMOUS"));
     //创建安全用户
     UserDetails securityDetails = new User(username, user.getPassword(), authorities);
     return securityDetails;

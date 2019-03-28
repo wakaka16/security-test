@@ -25,6 +25,14 @@ im:
 video:
   convert-config: /data_spring/t_gbpx/convert.sh
 
+#图形验证码配置
+validate:
+  code:
+    image:
+      length: 4
+      width: 100
+      url: /login
+
 #==================================spring boot应用基本配置end==================================#
 
 #==================================ssl设置start==================================#
@@ -50,7 +58,7 @@ video:
 #==================================thymeleaf end==================================#
 ---
 server:
-  port: 8080
+  port: 80
   tomcat:
     basedir: E:/test
 spring:

@@ -16,11 +16,14 @@ import java.util.Collection;
 import java.util.Stack;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.Validate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.servlet.ModelAndView;
 
 
@@ -354,5 +357,15 @@ public class BaseController {
     }
     return false;
 
+  }
+
+  // 获取request
+  public static HttpServletRequest getRequest() {
+    return ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+  }
+
+  // 获取session
+  public static HttpSession getSession() {
+    return getRequest().getSession();
   }
 }
