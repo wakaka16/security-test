@@ -1,5 +1,6 @@
 package com.wxl.securitytest.controller;
 
+import com.wxl.securitytest.configuration.validate.ValidateCodeException;
 import com.wxl.securitytest.pojo.ResponseCode;
 import com.wxl.securitytest.pojo.ResponseModel;
 import com.wxl.securitytest.entity.UserEntity;
@@ -50,9 +51,12 @@ public class SecurityController extends BaseController{
       UsernameNotFoundException exception = (UsernameNotFoundException) attribute;
       e=new IllegalArgumentException(exception.getMessage());
     }else if(attribute instanceof BadCredentialsException){
-      e=new IllegalArgumentException("用户名或密码错误(密码)");
-    }else{
-      e=new IllegalArgumentException("您尚未登录，请先进行登录...");
+      e=new IllegalArgumentException("用户名或密码错误");//密码
+    }else if(attribute instanceof ValidateCodeException){
+      ValidateCodeException exception = (ValidateCodeException) attribute;
+      e=new IllegalArgumentException(exception.getMessage());
+    } else{
+      e=new IllegalArgumentException("登录过期，请进行登录...");
     }
     return this.buildHttpResultForException(e);
   }

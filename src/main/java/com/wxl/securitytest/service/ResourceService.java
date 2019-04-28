@@ -1,8 +1,6 @@
 package com.wxl.securitytest.service;
 
 import com.wxl.securitytest.entity.ResourceEntity;
-import com.wxl.securitytest.entity.RoleEntity;
-import com.wxl.securitytest.entity.UserEntity;
 import java.util.List;
 
 public interface ResourceService {

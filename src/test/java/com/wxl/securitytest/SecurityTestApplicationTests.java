@@ -9,7 +9,7 @@ import com.wxl.securitytest.repository.RoleRepository;
 import com.wxl.securitytest.repository.UserRepository;
 import com.wxl.securitytest.service.UserService;
 import java.util.Date;
-import java.util.List;
+import java.util.Set;
 import javax.transaction.Transactional;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -99,7 +99,7 @@ public class SecurityTestApplicationTests {
   @Test
   public void findDistinctByUsersEquals(){
     UserEntity one = userRepository.findOne("56326ea8-6a12-4684-8c81-955836928c54");
-    List<RoleEntity> roleList = roleRepository.findDistinctByUsersEquals(one);
+    Set<RoleEntity> roleList = roleRepository.findDistinctByUsersEquals(one);
     System.out.println(roleList.size());
   }
 

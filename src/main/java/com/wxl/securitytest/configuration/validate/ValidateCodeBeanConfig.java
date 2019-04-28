@@ -5,8 +5,6 @@ package com.wxl.securitytest.configuration.validate;
  * @date 2019/3/27 17:38
  */
 
-import com.staticreport.system.hjstatic.common.validate.ImageCodeGenerator;
-import com.staticreport.system.hjstatic.common.validate.ValidateCodeGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;

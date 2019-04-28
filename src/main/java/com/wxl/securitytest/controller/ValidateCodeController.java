@@ -16,13 +16,19 @@ import org.springframework.web.bind.annotation.RestController;
  * @date 2019/3/27 17:19
  */
 @RestController
-@RequestMapping(value = "/code/")
+@RequestMapping(value = "v1/validateCode/")
 public class ValidateCodeController extends BaseController {
 
   public static final String SESSION_KEY = "SESSION_KEY_IMAGE_CODE";
   @Autowired
   private ValidateCodeGenerator imageCodeGenerator;
 
+  /**
+   * 图片验证码
+   * @param request
+   * @param response
+   * @throws IOException
+   */
   @GetMapping("/image/")
   public void createCode(HttpServletRequest request, HttpServletResponse response) throws IOException {
     ImageCode imageCode = imageCodeGenerator.createCode(request);

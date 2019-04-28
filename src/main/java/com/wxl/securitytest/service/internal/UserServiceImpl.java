@@ -7,12 +7,10 @@ import com.wxl.securitytest.repository.UserRepository;
 import com.wxl.securitytest.service.UserService;
 import java.util.Date;
 import java.util.List;
-import javax.transaction.Transactional;
 import org.apache.commons.lang3.Validate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.encoding.Md5PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.util.Assert;
 
 /**
  * @Author wxl

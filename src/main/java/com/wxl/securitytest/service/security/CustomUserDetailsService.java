@@ -39,7 +39,7 @@ public class CustomUserDetailsService implements UserDetailsService {
     UserEntity user = this.userService.getByName(username);
     Validate.notNull(user, "用户名或密码错误(用户名)");
     // 查询用户角色信息
-    Set<RoleEntity> roles = user.getRoles();
+    Set<RoleEntity> roles =  this.roleService.findByUser(user);
     Validate.notEmpty(roles, "用户没有角色信息，请联系客服人员！");
     //收集角色信息形成authorities集合对象
     List<SimpleGrantedAuthority> authorities = new LinkedList<>();

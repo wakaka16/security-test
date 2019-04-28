@@ -5,6 +5,8 @@ package com.wxl.securitytest.entity;
  * @Date 2018/12/18
  **/
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import java.util.Set;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -31,12 +33,14 @@ public class RoleEntity extends UuidEntity {
   //角色描述
   private String description;
   //角色和用户的中间表
+  @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class)
   @ManyToMany(fetch = FetchType.LAZY)
   @JoinTable(name = "t_user_role", joinColumns = {
       @JoinColumn(name = "role_id")}, inverseJoinColumns = {@JoinColumn(name = "user_id")})
   private Set<UserEntity> users;
 
   //角色和资源的中间表
+  @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class)
   @ManyToMany(fetch = FetchType.LAZY)
   @JoinTable(name = "t_role_resource", joinColumns = {
       @JoinColumn(name = "role_id")}, inverseJoinColumns = {@JoinColumn(name = "resource_id")})

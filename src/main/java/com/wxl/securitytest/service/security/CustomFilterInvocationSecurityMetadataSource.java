@@ -2,15 +2,12 @@ package com.wxl.securitytest.service.security;
 
 import com.wxl.securitytest.entity.ResourceEntity;
 import com.wxl.securitytest.entity.RoleEntity;
-import com.wxl.securitytest.repository.ResourceRepository;
-import com.wxl.securitytest.repository.RoleRepository;
 import com.wxl.securitytest.service.ResourceService;
 import com.wxl.securitytest.service.RoleService;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import org.apache.commons.lang3.StringUtils;

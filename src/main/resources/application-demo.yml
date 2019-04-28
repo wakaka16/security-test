@@ -1,0 +1,22 @@
+server:
+  port: 80
+  tomcat:
+    basedir: E:/test
+spring:
+  jpa:
+    show-sql: true
+    generate-ddl: false
+    database: MYSQL
+    hibernate:
+      ddl-auto: update
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
+    url: jdbc:mysql://127.0.0.1:3306/security_test?characterEncoding=UTF-8
+    username:  root
+    password:  root
+    driverClassName: com.mysql.jdbc.Driver
+author:
+  #主要是拦截后台管理端的路径
+  ignoreUrls: /admin/**,/v1/security/loginFail,/v1/user/hello,/v1/security/loginSuccess,/v1/log/**,/v1/test/**,/v1/validateCode/**
+
+
