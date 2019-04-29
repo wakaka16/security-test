@@ -39,7 +39,6 @@ public class SecurityTestApplicationTests {
     UserEntity user = new UserEntity();
     user.setName("18398031356");
     user.setEmail("wxl@163.com");
-    user.setLoginTime(new Date());
     user.setPassword("wxl");
     //未给此用户设置角色role
     userRepository.save(user);
@@ -70,21 +69,21 @@ public class SecurityTestApplicationTests {
   public void ResourceTest() {
     //  /admin的查看
     ResourceEntity resource1 = new ResourceEntity();
-    resource1.setName("/admin");
+    resource1.setUrl("/admin");
     resource1.setMethods("GET");
-    resource1.setComment("admin资源的查看");
+    resource1.setDescription("admin资源的查看");
     resourceRepository.save(resource1);
     //  /admin的POST|PATCH
     ResourceEntity resource2 = new ResourceEntity();
-    resource2.setName("/admin");
+    resource2.setUrl("/admin");
     resource2.setMethods("PATCH|POST");
-    resource2.setComment("admin资源的增加、修改");
+    resource2.setDescription("admin资源的增加、修改");
     resourceRepository.save(resource2);
     //  /admin的DELETE
     ResourceEntity resource3 = new ResourceEntity();
-    resource3.setName("/admin");
+    resource3.setUrl("/admin");
     resource3.setMethods("DELETE");
-    resource3.setComment("admin资源的删除");
+    resource3.setDescription("admin资源的删除");
     resourceRepository.save(resource3);
   }
 
@@ -132,8 +131,8 @@ public class SecurityTestApplicationTests {
   }
 
   @Test
-  public void modifyLoginTimeById(){
-    userService.modifyLoginTimeById(new Date(),"9053854b-0fba-46bb-bbed-c126079c0407");
+  public void updateLoginTimeById(){
+    userService.updateLoginTimeById("9053854b-0fba-46bb-bbed-c126079c0407");
   }
 
 }

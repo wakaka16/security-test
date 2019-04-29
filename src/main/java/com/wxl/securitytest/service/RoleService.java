@@ -29,4 +29,18 @@ public interface RoleService {
    * @return
    */
   List<RoleEntity> listAll();
+
+  /**
+   * 根据role name查询role
+   * @param name name unique
+   * @return
+   */
+  RoleEntity getByName(String name);
+
+  /**
+   * 新建角色
+   * @param role 角色信息
+   * @return
+   */
+  RoleEntity create(RoleEntity role);
 }

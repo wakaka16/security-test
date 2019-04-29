@@ -26,7 +26,6 @@ public class ServiceTest {
     user.setName("lizhiqiang2");
     user.setPassword("1234562");
     user.setEmail("lizhiqiang2@sina.com");
-    user.setLoginTime(new Date());
     UserEntity userEntity = userService.create(user);
     System.out.println(userEntity);
   }

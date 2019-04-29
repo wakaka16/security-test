@@ -1,5 +1,6 @@
 package com.wxl.securitytest.controller;
 
+import com.wxl.securitytest.common.exception.CustomException;
 import com.wxl.securitytest.pojo.ResponseCode;
 import com.wxl.securitytest.pojo.ResponseModel;
 import com.wxl.securitytest.entity.UserEntity;
@@ -41,15 +42,14 @@ public class BaseController {
   private UserService userService;
 
   /**
-   * 验证操作者是否登陆，是否是运营商平台操作者
+   * 验证操作者是否登陆
    */
   protected UserEntity verifyOperatorLogin(Principal operator) {
-    Validate.notNull(operator, "登录过期!");
+    CustomException.notNull(operator,"login is over time");
     String name = operator.getName();
     // 验证是否是后台操作者
-    UserEntity currentOp =
-        this.userService.getByName(name);
-    Validate.notNull(currentOp, "当前登录的操作者不存在!");
+    UserEntity currentOp = this.userService.getByAccount(name);
+    CustomException.notNull(operator,"user is not exist");
     return currentOp;
   }
 

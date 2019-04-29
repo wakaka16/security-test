@@ -7,9 +7,9 @@ public interface ResourceService {
 
   /**
    * 根据url查询resource信息
-   * @param name
+   * @param url
    * @return
    */
-  List<ResourceEntity> findByName(String name);
+  List<ResourceEntity> findByUrl(String url);
 
 }

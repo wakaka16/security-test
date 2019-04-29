@@ -124,7 +124,7 @@ public class CustomFilterInvocationSecurityMetadataSource implements
           matchUrl += "/{param}";
         }
         // 查询数据库，找到可能存在的满足url格式的功能信息
-        currentResources = this.resourceService.findByName(matchUrl);
+        currentResources = this.resourceService.findByUrl(matchUrl);
         // 如果条件成立，说明找到了那个要找的权限功能绑定信息
         if (null!=currentResources&&!currentResources.isEmpty()) {
           break;

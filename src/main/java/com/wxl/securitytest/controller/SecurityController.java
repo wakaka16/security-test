@@ -14,6 +14,7 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.InternalAuthenticationServiceException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.web.WebAttributes;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -64,9 +65,8 @@ public class SecurityController extends BaseController{
   @RequestMapping(value = "/loginSuccess", method = RequestMethod.POST)
   public ResponseModel loginSuccess(Principal logUser) {
     UserEntity userEntity = this.verifyOperatorLogin(logUser);
-    userEntity.setLoginTime(new Date());
-    userService.modifyLoginTimeById(new Date(),userEntity.getId());
-    userEntity.setPassword(null);
+    userEntity.setLastLoginTime(new Date());
+    userService.updateLoginTimeById(userEntity.getId());
     return this.buildHttpResult(userEntity,new String[]{"roles"});
   }
 
@@ -96,5 +96,36 @@ public class SecurityController extends BaseController{
     return responseModel;
   }
 
+
+  /**
+   * 当加入security后，访问此url会进入http://localhost:8080/login
+   * 并提示输入账号和密码
+   *  通过在securityConfig中设置.authorizeRequests().antMatchers("/v1/user/hello").permitAll()
+   *  可以取消访问权限控制，直接访问到资源
+   * @return
+   */
+  //资源一：忽略资源，任何人都可以访问
+  @GetMapping("/hello")
+  public String hello(){
+    int i = 0;
+    if(i==0){
+      throw new IllegalArgumentException("业务抛出错误，应该由全部异常捕获进行处理");
+    }
+
+    return "hello";
+  }
+
+  //资源二：没有入库的资源
+  @GetMapping("/index")
+  public String index(){
+    return "index";
+  }
+
+  //资源三：限定admin角色访问
+  @GetMapping("/get")
+  public ResponseModel get(){
+    UserEntity admin = userService.getByAccount("lizhiqiang");
+    return this.buildHttpResult(admin,new String[]{"roles"});
+  }
 
 }

@@ -26,7 +26,6 @@ public interface RoleRepository extends
    */
   List<RoleEntity> findDistinctByResourcesEquals(@Param("resource")ResourceEntity resource);
 
-
   /**
    *
    * @return
@@ -34,6 +33,11 @@ public interface RoleRepository extends
   @Query(value = "select re from RoleEntity re")
   List<RoleEntity> listAll();
 
-
+  /**
+   * 根据名称查询
+   * @param name unique
+   * @return
+   */
+  RoleEntity getByName(@Param("name")String name);
 
 }
