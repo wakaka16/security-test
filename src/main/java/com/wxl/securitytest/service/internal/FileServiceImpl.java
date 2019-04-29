@@ -90,22 +90,8 @@ public class FileServiceImpl implements FileService {
 
 
 
-  /* (non-Javadoc)
-   * @see com.vanda.alarm.manager.service.FileUpdateService#fileUpload(java.lang.String, org.springframework.web.multipart.MultipartFile)
-   */
   @Override
   public FilePojo fileUpload(String subSystem , MultipartFile file) throws IllegalArgumentException {
-    /*
-     * 处理过程为：
-     * 1、为了保证网络畅通，要控制文件大小在10MB以下，所以也要进行控制（当然也可以通过spring mvc的配置实现限制）
-     *
-     * 2、开始保存文件，注意，文件都要重命名。
-     * 为了简单起见重命名使用java自带的UUID工具完成即可
-     *
-     * 3、正式写入文件，如果以上所有步骤都成功，则向上传者返回文件存储的提示信息
-     *
-     * 最后，本工程没有提供上传的测试页面，测试是使用postman等软件完成的
-     * */
     // 1、都在这里=======
     String originalFilename = file.getOriginalFilename();
     long fileSize = file.getSize();
@@ -134,9 +120,6 @@ public class FileServiceImpl implements FileService {
     }
     folderPath = fileRoot + "/" + relativePath;
     File folderFile = new File(folderPath);
-    // 如果不存在这个目录则进行创建。
-    // 为了保证高并发时不会重复创建目录，要进行线程锁定
-    // 使用悲观锁就行了
     if(!folderFile.exists()) {
       synchronized (FileService.class) {
         while(!folderFile.exists()) {

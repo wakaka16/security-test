@@ -54,7 +54,12 @@ public class BaseController {
   }
 
 
-  //mvc相应
+  /**
+   * mvc相应
+   * @param e 异常
+   * @param viewName 视图名称
+   * @return ModelAndView
+   */
   protected ModelAndView buildHttpReslutForException(Exception e, String viewName) {
     String errorMsg = "";
     if (e != null) {
@@ -348,7 +353,12 @@ public class BaseController {
   }
   /**============================结束=========================*/
 
-//判断是否是微信扫码
+
+  /**
+   * 判断是否是微信扫码
+   * @param request
+   * @return
+   */
   protected boolean isWeChat(HttpServletRequest request) {
     String userAgent = request.getHeader("user-agent");
     // 微信扫码
@@ -359,12 +369,18 @@ public class BaseController {
 
   }
 
-  // 获取request
+  /**
+   * 获取request
+   * @return
+   */
   public static HttpServletRequest getRequest() {
     return ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
   }
 
-  // 获取session
+  /**
+   * 获取session
+   * @return
+   */
   public static HttpSession getSession() {
     return getRequest().getSession();
   }

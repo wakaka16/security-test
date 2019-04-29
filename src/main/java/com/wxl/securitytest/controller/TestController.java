@@ -64,14 +64,12 @@ public class TestController extends BaseController {
     return "hello";
   }
 
-  //findOne
   @GetMapping("/findOne/{id}")
   public ResponseModel findOne(@PathVariable(value = "id") String id){
     RoleEntity roleEntity = roleService.getById(id);
     return this.buildHttpResult(roleEntity);
   }
 
-  //save
   @GetMapping("/save")
   public ResponseModel save(){
     UserEntity one = new UserEntity();

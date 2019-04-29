@@ -9,7 +9,6 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import io.swagger.annotations.ApiModelProperty;
 import java.util.Date;
-import java.util.Objects;
 import java.util.Set;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -18,54 +17,87 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-import lombok.Data;
 
 /**
  * 管理员用户
+ * @author Client
  */
 @Entity
 @Table(name = "t_user")
-public class UserEntity extends UuidEntity {
+public class UserEntity extends BaseUuidEntity {
 
   private static final long serialVersionUID = -6450745644854563411L;
 
+  /**
+   * 用户名
+   */
   @Column(name = "account", length = 120,unique = true)
-  private String account; //用户名
+  private String account;
 
+  /**
+   * 名称
+   */
   @Column(name = "name", length = 50)
-  private String name; //名称
+  private String name;
 
+  /**
+   * 用户邮箱
+   */
   @Column(name = "email", length = 50,unique = true)
-  private String email;//用户邮箱
+  private String email;
 
+  /**
+   * 用户密码
+   */
   @JsonIgnore
   @Column(name = "password", length = 120)
-  private String password;//用户密码
+  private String password;
 
+  /**
+   * 登录时间
+   */
   @Column(name = "last_login_time", length = 10)
-  private Date lastLoginTime;//登录时间
+  private Date lastLoginTime;
 
+  /**
+   * 角色和用户的关系
+   */
   @ManyToMany(fetch = FetchType.LAZY, mappedBy = "users")
   @JsonIgnoreProperties("users")
-  private Set<RoleEntity> roles;//角色和用户的关系.
+  private Set<RoleEntity> roles;
 
+  /**
+   * 创建人
+   */
   @ApiModelProperty(hidden = true)
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "creator")
-  private UserEntity creator;//创建人
+  private UserEntity creator;
 
+  /**
+   * 修改人
+   */
   @ApiModelProperty(hidden = true)
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "modifier")
-  private UserEntity modifier;//修改人
+  private UserEntity modifier;
 
+  /**
+   * 创建时间
+   */
   @Column(name = "create_date", nullable = false)
-  private Date createDate = new Date();//创建时间
+  private Date createDate = new Date();
 
+  /**
+   * 修改时间
+   */
   @Column(name = "modify_date")
-  private Date modifyDate;//修改时间
+  private Date modifyDate;
 
-  //getter setter
+  /**
+   * getter setter
+   * @return
+   */
   public String getAccount() {
     return account;
   }

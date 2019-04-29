@@ -3,14 +3,14 @@ package com.wxl.securitytest.schedule;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-//import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.stereotype.Component;
 
 /**
  * 定时任务
+ * @author wxl
+ * @EnableScheduling
  */
 @Component
-//@EnableScheduling
 public class ScheduleTasks {
   /**
    * 日志

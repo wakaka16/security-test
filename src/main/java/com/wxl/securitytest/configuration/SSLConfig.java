@@ -8,15 +8,16 @@ import org.springframework.boot.context.embedded.EmbeddedServletContainerFactory
 import org.springframework.boot.context.embedded.tomcat.TomcatEmbeddedServletContainerFactory;
 import org.springframework.context.annotation.Bean;
 
+
+
+/**
+ * ssl应用的tomcat和应用配置
+ * @Configuration
+ */
 /**
  * @Author wxl
  * @Date 2018/12/17
  **/
-
-/**
- * ssl应用的tomcat和应用配置
- */
-//@Configuration
 public class SSLConfig {
   /**
    * http重定向到https

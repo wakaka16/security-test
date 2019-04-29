@@ -19,14 +19,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+
 /**
  * @Author wxl
  * @Date 2018/12/13
- **/
-
-/**
  * 安全控制器
- */
+ **/
 @RestController
 @RequestMapping("/v1/security")
 public class SecurityController extends BaseController{
@@ -52,7 +50,8 @@ public class SecurityController extends BaseController{
       UsernameNotFoundException exception = (UsernameNotFoundException) attribute;
       e=new IllegalArgumentException(exception.getMessage());
     }else if(attribute instanceof BadCredentialsException){
-      e=new IllegalArgumentException("用户名或密码错误");//密码
+      //密码
+      e=new IllegalArgumentException("用户名或密码错误");
     }else if(attribute instanceof ValidateCodeException){
       ValidateCodeException exception = (ValidateCodeException) attribute;
       e=new IllegalArgumentException(exception.getMessage());
@@ -78,7 +77,8 @@ public class SecurityController extends BaseController{
     Cookie[] cookies = request.getCookies();
     for(int i = 0;i<cookies.length;i++){
       if(cookies[i].getName().equals("remember_me")){
-        cookies[i].setMaxAge(0);//立即清除cookie
+        //立即清除cookie
+        cookies[i].setMaxAge(0);
       }
     }
     return this.buildHttpResult();
@@ -103,8 +103,8 @@ public class SecurityController extends BaseController{
    *  通过在securityConfig中设置.authorizeRequests().antMatchers("/v1/user/hello").permitAll()
    *  可以取消访问权限控制，直接访问到资源
    * @return
+   * 资源一：忽略资源，任何人都可以访问
    */
-  //资源一：忽略资源，任何人都可以访问
   @GetMapping("/hello")
   public String hello(){
     int i = 0;
@@ -115,13 +115,19 @@ public class SecurityController extends BaseController{
     return "hello";
   }
 
-  //资源二：没有入库的资源
+  /**
+   * 资源二：没有入库的资源
+   * @return
+   */
   @GetMapping("/index")
   public String index(){
     return "index";
   }
 
-  //资源三：限定admin角色访问
+  /**
+   * 资源三：限定admin角色访问
+   * @return
+   */
   @GetMapping("/get")
   public ResponseModel get(){
     UserEntity admin = userService.getByAccount("lizhiqiang");
