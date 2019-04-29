@@ -12,6 +12,5 @@ public interface ResourceRepository extends
     JpaRepository<ResourceEntity, String>,
     JpaSpecificationExecutor<ResourceEntity> {
 
-  public List<ResourceEntity> findByName(@Param("name")String name);
-
+  List<ResourceEntity> findByUrl(@Param("url")String url);
 }

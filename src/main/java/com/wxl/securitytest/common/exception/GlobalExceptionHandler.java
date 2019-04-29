@@ -17,13 +17,13 @@ import org.springframework.web.multipart.MultipartException;
 /**
  * 全局异常捕获(业务错误，就是服务器错误了，相当于500)
  */
-//@ControllerAdvice
+@ControllerAdvice
 @ResponseBody
 public class GlobalExceptionHandler {
   /**
    * 日志
    */
-  protected static final Logger LOG = LoggerFactory.getLogger(GlobalExceptionHandler.class);
+  protected final Logger LOG = LoggerFactory.getLogger(this.getClass());
 
   /**
    * spring文件上传配置的异常捕获
@@ -42,6 +42,14 @@ public class GlobalExceptionHandler {
     LOG.error(e.getMessage());
     ResponseModel responseModel = new ResponseModel(ResponseCode._501);
     responseModel.setErrorMsg("上传文件失败");
+    return responseModel;
+  }
+
+  @ExceptionHandler(CustomException.class)
+  ResponseModel handleCustomException(CustomException e){
+    LOG.error(e.getMessage());
+    ResponseModel responseModel = new ResponseModel(ResponseCode._501);
+    responseModel.setErrorMsg(e.getMessage());
     return responseModel;
   }
 }

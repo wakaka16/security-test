@@ -2,7 +2,6 @@
 spring:
   application:
     name: security-test
-
 #swagger
 swagger:
   version: v0.0.9
@@ -24,6 +23,14 @@ im:
 #  视频转码配置
 video:
   convert-config: /data_spring/t_gbpx/convert.sh
+
+#图形验证码配置
+validate:
+  code:
+    image:
+      length: 4
+      width: 100
+      url: /login
 
 #==================================spring boot应用基本配置end==================================#
 
@@ -48,52 +55,6 @@ video:
 #    #开发时关闭缓存,不然没法看到实时页面
 #    cache: false
 #==================================thymeleaf end==================================#
----
-spring:
-  profiles: demo
-  jpa:
-    show-sql: true
-    generate-ddl: false
-    database: MYSQL
-    hibernate:
-      ddl-auto: update
-  datasource:
-    type: com.alibaba.druid.pool.DruidDataSource
-    url: jdbc:mysql://127.0.0.1:3306/security_test?characterEncoding=UTF-8
-    username:  root
-    password:  root
-    driverClassName: com.mysql.jdbc.Driver
-author:
-  #主要是拦截后台管理端的路径
-  ignoreUrls: /admin/**,/v1/security/loginFail,/v1/user/hello,/v1/security/loginSuccess
-logging:
-  level: debug
-
----
-#测试开发时，tomcat临时运行文件路径
-server:
-  port: 7770
-  tomcat:
-    basedir: E:/test
-#测试用数据库配置
-spring:
-  profiles: test
-  datasource:
-    type: com.alibaba.druid.pool.DruidDataSource
-    url: jdbc:mysql://127.0.0.1:3306/security_test?characterEncoding=UTF-8
-    username:  root
-    password:  root
-    driverClassName: com.mysql.jdbc.Driver
-
-#授权处理
-author:
-#不需要登录即可直接访问的url
-#  /admin/login.html,/v1/security/loginFail,/v1/user/hello,/login,/v1/security/loginSuccess,/favicon.ico,/v1/security/logoutSuccess
-  ignoreUrls: /**
-logging:
-  level: debug
-
-
 
 
 

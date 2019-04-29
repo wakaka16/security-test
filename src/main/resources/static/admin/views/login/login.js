@@ -4,6 +4,7 @@ login = function () {
   var username = $("#username").val();
   var password = $("#password").val();
   var remember_me = $("#rememberme").val();
+  var verifycode = $("#verifycode").val();
   var csrf_token = getCookie("XSRF-TOKEN");
   //数据校验
   if (username === '' || password === '') {
@@ -19,7 +20,8 @@ login = function () {
       username: username,
       password: password,
       _csrf: csrf_token,
-      remember_me: remember_me
+      remember_me: remember_me,
+      imageCode: verifycode
     },
     //将请求参数json转换为params
     function(obj) {
@@ -61,5 +63,8 @@ rememberme = function(){
   }else{
     $("#rememberme").val("off");
   }
-
+  // 刷新验证码
+refreshValidateCode = function() {
+    document.getElementById('img').onclick();
+  }
 }

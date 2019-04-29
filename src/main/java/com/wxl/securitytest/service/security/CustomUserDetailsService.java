@@ -36,19 +36,17 @@ public class CustomUserDetailsService implements UserDetailsService {
    */
   @Override
   public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-    UserEntity user = this.userService.getByName(username);
-    Validate.notNull(user, "用户名或密码错误(用户名)");
+    UserEntity user = this.userService.getByAccount(username);
+    Validate.notNull(user, "account or password error");//(用户名)
     // 查询用户角色信息
-    Set<RoleEntity> roles = user.getRoles();
-    Validate.notEmpty(roles, "用户没有角色信息，请联系客服人员！");
+    Set<RoleEntity> roles =  this.roleService.findByUser(user);
+    Validate.notEmpty(roles, "user not have role,please contact this manager");
     //收集角色信息形成authorities集合对象
     List<SimpleGrantedAuthority> authorities = new LinkedList<>();
     for (RoleEntity role : roles) {
       SimpleGrantedAuthority authority = new SimpleGrantedAuthority(role.getName());
       authorities.add(authority);
     }
-    //
-    authorities.add(new SimpleGrantedAuthority("ROLE_ANONYMOUS"));
     //创建安全用户
     UserDetails securityDetails = new User(username, user.getPassword(), authorities);
     return securityDetails;

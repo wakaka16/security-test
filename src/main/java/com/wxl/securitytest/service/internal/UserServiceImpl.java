@@ -1,18 +1,22 @@
 package com.wxl.securitytest.service.internal;
 
 import com.wxl.securitytest.common.Const;
+import com.wxl.securitytest.common.exception.CustomException;
 import com.wxl.securitytest.common.utils.StringValidateUtils;
 import com.wxl.securitytest.entity.UserEntity;
 import com.wxl.securitytest.repository.UserRepository;
+import com.wxl.securitytest.repository.internal.UserDao;
 import com.wxl.securitytest.service.UserService;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 import javax.transaction.Transactional;
 import org.apache.commons.lang3.Validate;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.authentication.encoding.Md5PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.util.Assert;
 
 /**
  * @Author wxl
@@ -25,20 +29,16 @@ public class UserServiceImpl implements UserService {
   private UserRepository userRepository;
   @Autowired
   private Md5PasswordEncoder passwordEncoder;
+  @Autowired
+  private UserDao userDao;
 
   @Override
   public UserEntity getById(String id) {
-    Validate.notBlank(id,"ID不能为空");
+    CustomException.notBlank(id,"ID"+Const.ERROR_CAN_NOT_BE_NULL);
     UserEntity one = userRepository.findOne(id);
     return one;
   }
 
-  @Override
-  public UserEntity getByName(String name) {
-    Validate.isTrue(StringValidateUtils.isUserName(name), Const.ERROR_USERNAME);
-    UserEntity byName = userRepository.getByName(name);
-    return byName;
-  }
 
   @Override
   public UserEntity getByEmail(String email) {
@@ -50,43 +50,58 @@ public class UserServiceImpl implements UserService {
   public UserEntity create(UserEntity user) {
     this.validateUser(user);
     // 密码需要加密
-    String encodePassword = passwordEncoder.encodePassword(user.getPassword(), null);
+    String encodePassword = passwordEncoder.encodePassword(user.getPassword(), Const.PASSWORD_SALT);
     user.setPassword(encodePassword);
     this.userRepository.save(user);
     return user;
   }
 
+  @Transactional
   @Override
-  public void modifyLoginTimeById(Date loginTime,String id) {
-    Validate.notNull(loginTime,"登录时间不能为空");
-    Validate.notBlank(id,"用户ID不能为空");
-    userRepository.modifyLoginTimeById(id,loginTime);
+  public void updateLoginTimeById(String id) {
+    CustomException.notBlank(id,"ID"+Const.ERROR_CAN_NOT_BE_NULL);
+    userRepository.updateLastLoginTimeById(id);
   }
 
   @Override
-  public List<UserEntity> findAll() {
+  public Page<UserEntity> findByCondition(Map<String, Object> condition, Pageable pageable) {
+    Page<UserEntity> pageList = userDao.findByCondition(condition, pageable);
+    return pageList;
+  }
+
+  @Override
+  public UserEntity getByAccount(String account) {
+    CustomException.notBlank(account,"ACCOUNT"+Const.ERROR_CAN_NOT_BE_NULL);
+    return userRepository.getByAccount(account);
+  }
+
+  @Transactional
+  @Override
+  public List<UserEntity> listAll() {
     return userRepository.findAll();
   }
 
 
   /**
-   * 校验用户(修改、新增都要通过此验证)
+   * 校验用户(新增都要通过此验证)
    *1、首先判断必须填写的信息是否都已经填写
    *2、检查数据库中是否存在重复信息
+   *3、密码加密
    * @param user
    */
   private void validateUser(UserEntity user){
     //1  非空and格式验证
-    Validate.notNull(user,"用户信息不能为空");
-    Validate.isTrue(user.getId()==null, "初始用户不应含有用户ID");
-    Validate.isTrue(StringValidateUtils.isUserName(user.getName()), Const.ERROR_USERNAME);
-    Validate.isTrue(StringValidateUtils.isPassword(user.getPassword()), Const.ERROR_PASSWORD);
-    Validate.isTrue(StringValidateUtils.isEmail(user.getEmail()), Const.ERROR_EMAIL);
+    CustomException.notNull(user,"USER"+Const.ERROR_CAN_NOT_BE_NULL);
+    //防止篡改他人信息
+    CustomException.isTrue(user.getId()==null, "初始用户不应含有用户ID");
+    CustomException.isTrue(StringValidateUtils.isAccount(user.getAccount()), Const.ERROR_ACCOUNT);
+    CustomException.isTrue(StringValidateUtils.isPassword(user.getPassword()), Const.ERROR_PASSWORD);
+    CustomException.isTrue(StringValidateUtils.isEmail(user.getEmail()), Const.ERROR_EMAIL);
     //2  重复验证
-    UserEntity existUserName = this.getByName(user.getName());
-    Validate.isTrue(existUserName==null,"用户名已存在");
+    UserEntity existAccount = this.getByAccount(user.getAccount());
+    CustomException.isTrue(existAccount==null,Const.ERROR_ACCOUNT_HAS_REGISTER);
     UserEntity existEmail = this.getByEmail(user.getEmail());
-    Validate.isTrue(existEmail==null,"邮箱已存在");
+    CustomException.isTrue(existEmail==null,Const.ERROR_EMAIL_HAS_REGISTER);
   }
 
 

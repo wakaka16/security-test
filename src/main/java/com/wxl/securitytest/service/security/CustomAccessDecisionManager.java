@@ -76,7 +76,7 @@ public class CustomAccessDecisionManager implements AccessDecisionManager {
       }
     }
     
-    throw new AccessDeniedException("CCCCCCCCCCCCCCC（not author）!");
+    throw new AccessDeniedException("（not author）!");
   }
 
   @Override

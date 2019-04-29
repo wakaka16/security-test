@@ -1,12 +1,16 @@
 package com.wxl.securitytest.controller;
 
 
-import com.wxl.securitytest.pojo.ResponseModel;
+import com.wxl.securitytest.common.aop.LoggerManage;
 import com.wxl.securitytest.entity.RoleEntity;
 import com.wxl.securitytest.entity.UserEntity;
+import com.wxl.securitytest.pojo.ResponseModel;
 import com.wxl.securitytest.repository.UserRepository;
+import com.wxl.securitytest.service.DiService;
 import com.wxl.securitytest.service.RoleService;
 import com.wxl.securitytest.service.UserService;
+import com.wxl.securitytest.service.internal.AsyncService;
+import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -44,6 +48,8 @@ public class TestController extends BaseController {
   private UserService userService;
   @Autowired
   private RoleService roleService;
+  @Autowired
+  private DiService diService;
 
   //findOne
 //  @GetMapping("/findOne/{id}")
@@ -53,6 +59,7 @@ public class TestController extends BaseController {
 //  }
 
   @GetMapping("/hello")
+  @LoggerManage(description = "你好接口")
   public String hello(){
     return "hello";
   }
@@ -78,6 +85,28 @@ public class TestController extends BaseController {
   @PostMapping(value = "/csrfPost")
   public String csrfPost(){
     return "csrfPost";
+  }
+
+
+  @GetMapping("/http")
+  public String http(HttpServletRequest request){
+    return request.toString();
+  }
+
+  @Autowired
+  private AsyncService async;
+  @GetMapping("/async")
+  public String async(){
+    System.out.println("异步开始");
+    async.async();
+    System.out.println("异步结束");
+    /**
+     * 异步开始
+     * 异步结束
+     * 异步执行
+     * 从执行顺序中可看出，异步执行成功
+     */
+    return "ok";
   }
 
 

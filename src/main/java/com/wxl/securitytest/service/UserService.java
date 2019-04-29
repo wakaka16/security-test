@@ -3,12 +3,13 @@ package com.wxl.securitytest.service;
 import com.wxl.securitytest.entity.UserEntity;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 public interface UserService {
 
   UserEntity getById(String id);
-
-  UserEntity getByName(String name);
 
   UserEntity getByEmail(String email);
 
@@ -22,16 +23,30 @@ public interface UserService {
   UserEntity create(UserEntity user);
 
   /**
-   * 修改用户登录时间
-   * @param loginTime
+   * 更新用户最后登录时间
    * @param id
    * @return
    */
-  void modifyLoginTimeById(Date loginTime,String id);
+  void updateLoginTimeById(String id);
 
   /**
    * 获取用户列表
    * @return
    */
-  List<UserEntity> findAll();
+  List<UserEntity> listAll();
+
+  /**
+   * 根据账号查询
+   * @param account 账号 unique
+   * @return
+   */
+  UserEntity getByAccount(String account);
+
+  /**
+   * 分页条件查询用户
+   * @param condition 条件
+   * @param pageable 分页信息 如果有多个参数，spring jpa 建议放在最后
+   * @return 分页用户信息
+   */
+  Page<UserEntity> findByCondition(Map<String, Object> condition, Pageable pageable);
 }

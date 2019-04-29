@@ -5,13 +5,20 @@ package com.wxl.securitytest.entity;
  * @Date 2018/12/18
  **/
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import io.swagger.annotations.ApiModelProperty;
 import java.util.Date;
+import java.util.Objects;
 import java.util.Set;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import lombok.Data;
 
 /**
  * 管理员用户
@@ -22,23 +29,50 @@ public class UserEntity extends UuidEntity {
 
   private static final long serialVersionUID = -6450745644854563411L;
 
-  @Column(name = "name", length = 120,unique = true)
-  private String name; //用户名
+  @Column(name = "account", length = 120,unique = true)
+  private String account; //用户名
+
+  @Column(name = "name", length = 50)
+  private String name; //名称
+
   @Column(name = "email", length = 50,unique = true)
   private String email;//用户邮箱
+
+  @JsonIgnore
   @Column(name = "password", length = 120)
   private String password;//用户密码
-  @Column(name = "login_time", length = 10)
-  private Date loginTime;//登录时间
-  //角色和用户的关系.
-  /**
-   * 关于懒加载和积极加载：
-   * LAZY:只有在@Tansational注解中通过get方法调用才会产生 如：user.getRoles()
-   * EAGER:在查询user时，直接就查询出了roles
-   */
-  @ManyToMany(fetch = FetchType.EAGER, mappedBy = "users")
-  private Set<RoleEntity> roles;
 
+  @Column(name = "last_login_time", length = 10)
+  private Date lastLoginTime;//登录时间
+
+  @ManyToMany(fetch = FetchType.LAZY, mappedBy = "users")
+  @JsonIgnoreProperties("users")
+  private Set<RoleEntity> roles;//角色和用户的关系.
+
+  @ApiModelProperty(hidden = true)
+  @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "creator")
+  private UserEntity creator;//创建人
+
+  @ApiModelProperty(hidden = true)
+  @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "modifier")
+  private UserEntity modifier;//修改人
+
+  @Column(name = "create_date", nullable = false)
+  private Date createDate = new Date();//创建时间
+
+  @Column(name = "modify_date")
+  private Date modifyDate;//修改时间
+
+  //getter setter
+  public String getAccount() {
+    return account;
+  }
+
+  public void setAccount(String account) {
+    this.account = account;
+  }
 
   public String getName() {
     return name;
@@ -64,12 +98,12 @@ public class UserEntity extends UuidEntity {
     this.password = password;
   }
 
-  public Date getLoginTime() {
-    return loginTime;
+  public Date getLastLoginTime() {
+    return lastLoginTime;
   }
 
-  public void setLoginTime(Date loginTime) {
-    this.loginTime = loginTime;
+  public void setLastLoginTime(Date lastLoginTime) {
+    this.lastLoginTime = lastLoginTime;
   }
 
   public Set<RoleEntity> getRoles() {
@@ -80,15 +114,35 @@ public class UserEntity extends UuidEntity {
     this.roles = roles;
   }
 
+  public UserEntity getCreator() {
+    return creator;
+  }
 
-  //一个部门管辖范围
-//  @ApiModelProperty(hidden = true)
-//  @OneToOne(fetch = FetchType.LAZY,mappedBy="unit")
-//  private JurisdictionEntity jurisdictions;
-//
-//  //所属部门
-//  @ApiModelProperty(hidden = true)
-//  @OneToOne
-//  @JoinColumn(name="unit_id")
-//  private UnitEntity unit;
+  public void setCreator(UserEntity creator) {
+    this.creator = creator;
+  }
+
+  public UserEntity getModifier() {
+    return modifier;
+  }
+
+  public void setModifier(UserEntity modifier) {
+    this.modifier = modifier;
+  }
+
+  public Date getCreateDate() {
+    return createDate;
+  }
+
+  public void setCreateDate(Date createDate) {
+    this.createDate = createDate;
+  }
+
+  public Date getModifyDate() {
+    return modifyDate;
+  }
+
+  public void setModifyDate(Date modifyDate) {
+    this.modifyDate = modifyDate;
+  }
 }

@@ -1,5 +1,6 @@
 package com.wxl.securitytest.controller;
 
+import com.wxl.securitytest.common.exception.CustomException;
 import com.wxl.securitytest.pojo.ResponseCode;
 import com.wxl.securitytest.pojo.ResponseModel;
 import com.wxl.securitytest.entity.UserEntity;
@@ -16,11 +17,14 @@ import java.util.Collection;
 import java.util.Stack;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.Validate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.servlet.ModelAndView;
 
 
@@ -30,23 +34,22 @@ import org.springframework.web.servlet.ModelAndView;
 public class BaseController {
 
   /**
-   * 日志
+   * 日志:this.getClass() 可以定位到具体的controller
    */
-  protected static final Logger LOG = LoggerFactory.getLogger(BaseController.class);
+  protected final Logger LOG = LoggerFactory.getLogger(this.getClass());
 
   @Autowired
   private UserService userService;
 
   /**
-   * 验证操作者是否登陆，是否是运营商平台操作者
+   * 验证操作者是否登陆
    */
   protected UserEntity verifyOperatorLogin(Principal operator) {
-    Validate.notNull(operator, "登录过期!");
+    CustomException.notNull(operator,"login is over time");
     String name = operator.getName();
     // 验证是否是后台操作者
-    UserEntity currentOp =
-        this.userService.getByName(name);
-    Validate.notNull(currentOp, "当前登录的操作者不存在!");
+    UserEntity currentOp = this.userService.getByAccount(name);
+    CustomException.notNull(operator,"user is not exist");
     return currentOp;
   }
 
@@ -354,5 +357,15 @@ public class BaseController {
     }
     return false;
 
+  }
+
+  // 获取request
+  public static HttpServletRequest getRequest() {
+    return ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+  }
+
+  // 获取session
+  public static HttpSession getSession() {
+    return getRequest().getSession();
   }
 }

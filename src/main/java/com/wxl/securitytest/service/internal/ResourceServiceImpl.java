@@ -18,7 +18,7 @@ public class ResourceServiceImpl implements ResourceService {
   private ResourceRepository resourceRepository;
 
   @Override
-  public List<ResourceEntity> findByName(String name) {
-    return resourceRepository.findByName(name);
+  public List<ResourceEntity> findByUrl(String url) {
+    return resourceRepository.findByUrl(url);
   }
 }

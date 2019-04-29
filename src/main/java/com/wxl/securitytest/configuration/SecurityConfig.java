@@ -1,5 +1,6 @@
 package com.wxl.securitytest.configuration;
 
+import com.wxl.securitytest.configuration.validate.ValidateCodeFilter;
 import com.wxl.securitytest.service.security.CustomUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -13,6 +14,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 
 /**
@@ -41,6 +43,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
    */
   @Value("${author.ignoreUrls}")
   private String[] ignoreUrls;
+  @Autowired
+  private ValidateCodeFilter validateCodeFilter;
 
   /**
    * 配置自己的登录访问接口
@@ -54,6 +58,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
      * 我个人认为：如果没有对url绑定角色，那么所有的登录用户角色就应该都能访问()
      */
     http
+        .addFilterBefore(validateCodeFilter, UsernamePasswordAuthenticationFilter.class)
         /**==================设定url的访问权限(请求授权)==================**/
         .authorizeRequests()
         //以下URL不需要被保护的资源(1、后台url 2、静态资源路径)
@@ -107,7 +112,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
   public CookieCsrfTokenRepository tokenRepository() {
     CookieCsrfTokenRepository tokenRepository = new CookieCsrfTokenRepository();
     tokenRepository.setCookieHttpOnly(false);
-    tokenRepository.setCookieName("XSRF-TOKEN");
+    tokenRepository.setCookieName("X-XSRF-TOKEN");
     tokenRepository.setHeaderName("X-XSRF-TOKEN");
     return tokenRepository;
   }

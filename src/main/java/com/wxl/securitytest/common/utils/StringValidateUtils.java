@@ -123,17 +123,17 @@ public class StringValidateUtils {
   }
 
   /**
-   * 用户名格式验证
-   * @param userName
+   * 账号格式验证
+   * @param account
    * @return
    */
-  public static boolean isUserName(String userName) {
-    Validate.notBlank(userName,"用户名不能为空");
+  public static boolean isAccount(String account) {
+    Validate.notBlank(account,"account can not be null or []");
     Pattern p = null;
     Matcher m = null;
     boolean b = false;
-    p = Pattern.compile("^[a-zA-Z\\u4E00-\\u9FA5\\uf900-\\ufa2d·s]{2,12}$"); // 验证用户名
-    m = p.matcher(userName);
+    p = Pattern.compile("^[a-zA-Z\\u4E00-\\u9FA5\\uf900-\\ufa2d·s]{2,12}$"); // 验证账号
+    m = p.matcher(account);
     b = m.matches();
     return b;
   }
