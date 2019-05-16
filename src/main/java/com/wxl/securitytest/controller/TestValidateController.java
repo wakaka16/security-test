@@ -21,14 +21,12 @@ public class TestValidateController {
   @ApiOperation(value = "验证时，name可以为空")
   @RequestMapping(value = "/1",method = {RequestMethod.GET,RequestMethod.POST})
   public void testParameter(@Validated Demo demo){
-    System.out.println(demo.getName());
-    System.out.println("执行完成");
+
   }
 
   @ApiOperation(value = "验证时，name不可以为空")
   @RequestMapping(value = "/2",method = {RequestMethod.GET,RequestMethod.POST})
   public void testParameter2(@Validated({First.class}) Demo demo){
-    System.out.println(demo.getName());
-    System.out.println("执行完成");
+
   }
 }

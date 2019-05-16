@@ -26,6 +26,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 /**
  * 用户控制器
+ * @author wxl
  */
 @RestController
 @RequestMapping(value = "/v1/user")
@@ -50,9 +51,9 @@ public class UserController extends BaseController {
       @PageableDefault(value = 20, sort = "createDate", direction = Direction.DESC) Pageable pageable,
       Principal operator) {
     //验证必须登录
-//    this.verifyOperatorLogin(operator);
+    //this.verifyOperatorLogin(operator);
     //输入条件
-    Map<String, Object> condition = new HashMap<>();
+    Map<String, Object> condition = new HashMap<>(16);
     if (!StringUtils.isBlank(account)) {
       condition.put("account", account);
     }

@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @date 2019/3/27 17:19
  */
 @RestController
-@RequestMapping(value = "v1/validateCode/")
+@RequestMapping(value = "v1/validateCode")
 public class ValidateCodeController extends BaseController {
 
   public static final String SESSION_KEY = "SESSION_KEY_IMAGE_CODE";
@@ -29,7 +29,7 @@ public class ValidateCodeController extends BaseController {
    * @param response
    * @throws IOException
    */
-  @GetMapping("/image/")
+  @GetMapping("/image")
   public void createCode(HttpServletRequest request, HttpServletResponse response) throws IOException {
     ImageCode imageCode = imageCodeGenerator.createCode(request);
     //将随机数 放到Session中
