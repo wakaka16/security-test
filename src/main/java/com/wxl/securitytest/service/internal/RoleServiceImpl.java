@@ -28,7 +28,7 @@ public class RoleServiceImpl implements RoleService {
   }
 
   @Override
-  public Set<RoleEntity> findByUser(UserEntity user) {
+  public List<RoleEntity> findByUser(UserEntity user) {
     Validate.notNull(user, "user can not be null");
     return roleRepository.findDistinctByUsersEquals(user);
   }

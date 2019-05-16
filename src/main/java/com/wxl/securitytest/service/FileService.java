@@ -6,6 +6,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 /**
  * 文件上传下载
+ * @author wxl
  */
 public interface FileService {
 

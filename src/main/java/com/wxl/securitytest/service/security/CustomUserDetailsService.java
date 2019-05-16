@@ -16,13 +16,10 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
 /**
- * @Author wxl
- * @Date 2018/12/13
- **/
-
-/**
  * 实现自己的用户登录的业务
  * 获取登录用户的角色权限
+ * @author wxl
+ * @date 2018/12/13
  */
 public class CustomUserDetailsService implements UserDetailsService {
 
@@ -37,9 +34,10 @@ public class CustomUserDetailsService implements UserDetailsService {
   @Override
   public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
     UserEntity user = this.userService.getByAccount(username);
-    Validate.notNull(user, "account or password error");//(用户名)
+    //(用户名)
+    Validate.notNull(user, "account or password error");
     // 查询用户角色信息
-    Set<RoleEntity> roles =  this.roleService.findByUser(user);
+    List<RoleEntity> roles =  this.roleService.findByUser(user);
     Validate.notEmpty(roles, "user not have role,please contact this manager");
     //收集角色信息形成authorities集合对象
     List<SimpleGrantedAuthority> authorities = new LinkedList<>();
@@ -48,7 +46,6 @@ public class CustomUserDetailsService implements UserDetailsService {
       authorities.add(authority);
     }
     //创建安全用户
-    UserDetails securityDetails = new User(username, user.getPassword(), authorities);
-    return securityDetails;
+    return new User(username, user.getPassword(), authorities);
   }
 }

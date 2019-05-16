@@ -5,10 +5,11 @@ package com.wxl.securitytest.entity;
  * @Date 2018/12/18
  **/
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import io.swagger.annotations.ApiModelProperty;
 import java.util.Date;
+import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -49,11 +50,11 @@ public class RoleEntity extends BaseUuidEntity {
   @JoinTable(name = "t_user_role", joinColumns = {
       @JoinColumn(name = "role_id")}, inverseJoinColumns = {@JoinColumn(name = "user_id")})
   @JsonIgnoreProperties("roles")
-  private Set<UserEntity> users;
+  private List<UserEntity> users;
 
   @ManyToMany(fetch = FetchType.LAZY, mappedBy = "roles")
   @JsonIgnoreProperties("roles")
-  private Set<ResourceEntity> resources;
+  private List<ResourceEntity> resources;
 
   /**
    * 创建人
@@ -102,19 +103,19 @@ public class RoleEntity extends BaseUuidEntity {
     this.description = description;
   }
 
-  public Set<UserEntity> getUsers() {
+  public List<UserEntity> getUsers() {
     return users;
   }
 
-  public void setUsers(Set<UserEntity> users) {
+  public void setUsers(List<UserEntity> users) {
     this.users = users;
   }
 
-  public Set<ResourceEntity> getResources() {
+  public List<ResourceEntity> getResources() {
     return resources;
   }
 
-  public void setResources(Set<ResourceEntity> resources) {
+  public void setResources(List<ResourceEntity> resources) {
     this.resources = resources;
   }
 
@@ -148,5 +149,26 @@ public class RoleEntity extends BaseUuidEntity {
 
   public void setModifyDate(Date modifyDate) {
     this.modifyDate = modifyDate;
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
+    RoleEntity that = (RoleEntity) o;
+    return Objects.equals(name, that.name) &&
+        Objects.equals(description, that.description) &&
+        Objects.equals(createDate, that.createDate) &&
+        Objects.equals(modifyDate, that.modifyDate);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects
+        .hash(name, description, createDate, modifyDate);
   }
 }

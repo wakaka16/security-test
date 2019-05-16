@@ -15,7 +15,7 @@ public interface RoleService {
    * @param user
    * @return
    */
-  Set<RoleEntity> findByUser(UserEntity user);
+  List<RoleEntity> findByUser(UserEntity user);
 
   /**
    * 根据权限获取角色信息

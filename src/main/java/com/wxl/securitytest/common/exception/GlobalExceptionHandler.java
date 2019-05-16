@@ -25,18 +25,18 @@ public class GlobalExceptionHandler {
    */
   protected final Logger LOG = LoggerFactory.getLogger(this.getClass());
 
-  /**
-   * spring文件上传配置的异常捕获
-   * @return
-   */
+
   @ExceptionHandler(Exception.class)
   ResponseModel handleException(Exception e){
-    LOG.error(e.getMessage());
+    LOG.error("【系统异常】",e.getMessage());
     ResponseModel responseModel = new ResponseModel(ResponseCode._502);
     return responseModel;
   }
 
-
+  /**
+   * spring文件上传配置的异常捕获
+   * @return
+   */
   @ExceptionHandler(MultipartException.class)
   ResponseModel handleMultipartException(MultipartException e){
     LOG.error(e.getMessage());
@@ -45,6 +45,11 @@ public class GlobalExceptionHandler {
     return responseModel;
   }
 
+  /**
+   * 业务异常处理
+   * @param e
+   * @return
+   */
   @ExceptionHandler(CustomException.class)
   ResponseModel handleCustomException(CustomException e){
     LOG.error(e.getMessage());
@@ -52,4 +57,18 @@ public class GlobalExceptionHandler {
     responseModel.setErrorMsg(e.getMessage());
     return responseModel;
   }
+
+  /**
+   * 数据异常处理
+   * @param e
+   * @return
+   */
+  @ExceptionHandler(DataBaseException.class)
+  ResponseModel handleDataBaseException(DataBaseException e){
+    LOG.error(e.getMessage());
+    ResponseModel responseModel = new ResponseModel(ResponseCode._501);
+    responseModel.setErrorMsg("数据操作异常");
+    return responseModel;
+  }
+
 }

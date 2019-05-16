@@ -20,14 +20,15 @@ import org.springframework.security.web.access.intercept.FilterInvocationSecurit
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.stereotype.Service;
 
-/**
- * @Author wxl
- * @Date 2018/12/18
- **/
+
 /**
  * 最核心的地方，就是提供某个资源对应的权限定义，即getAttributes方法返回的结果。
  * 此类在初始化时，应该**取到所有资源及其对应角色权限的定义**。
  */
+/**
+ * @author wxl
+ * @Date 2018/12/18
+ **/
 @Service
 public class CustomFilterInvocationSecurityMetadataSource implements
     FilterInvocationSecurityMetadataSource {
@@ -148,7 +149,7 @@ public class CustomFilterInvocationSecurityMetadataSource implements
     // 3、获取当前访问路径方法匹配到的数据库录入的资源方法，获取角色，并录入到configAttributes中
     for (ResourceEntity resource : currentResources) {
       String methods = resource.getMethods();
-      if (methods.indexOf(method) != -1) {
+      if (methods.contains(method)) {
         // 取得当前权限和角色的绑定关系
         List<RoleEntity> roles = roleService.findByResource(resource);
         if (roles != null && !roles.isEmpty()) {

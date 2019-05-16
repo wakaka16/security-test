@@ -7,6 +7,7 @@ import org.springframework.stereotype.Component;
 
 /**
  * 视频统一转换工具
+ * @author wxl
  */
 @Component
 public class VideoSh implements Multimedia{

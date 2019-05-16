@@ -66,7 +66,10 @@ public class FileServiceImpl implements FileService {
 
   /**
    * 这个私有方法用于在磁盘上查询原始文件
-   * */
+   * @param imFile
+   * @return
+   * @throws IOException
+   */
   private byte[] queryOriginalPicture(File imFile) throws IOException{
     // 如果不存在这个文件，就不需要处理咯
     // 生产环境下要显示一张默认的404图片
@@ -84,7 +87,6 @@ public class FileServiceImpl implements FileService {
     in.close();
     byte[] imageBytes = out.toByteArray();
     out.close();
-
     return imageBytes;
   }
 
@@ -102,7 +104,8 @@ public class FileServiceImpl implements FileService {
       prefix = prefix.toLowerCase();
     }
     // 如果条件成立，说明大于10MB了
-    if(fileSize > maxFileSize * 1024 * 1024) {
+    int size = 1024;
+    if(fileSize > maxFileSize * size * size) {
       throw new IllegalArgumentException("file should be less than 10MB!");
     }
 
@@ -139,8 +142,10 @@ public class FileServiceImpl implements FileService {
     }
 
     //5、视频/音频需要转码
-    System.out.println(relativePath);
-    if(prefix.toLowerCase().contains("mp4")){
+    String mp4 = "mp4";
+    String mp3 = "mp3";
+    LOGGER.info(relativePath);
+    if(prefix.toLowerCase().contains(mp4)){
       //创建转换文件的目录
       File convertFile = new File(fileRoot + "/convert/"+relativePath.substring(0,relativePath.lastIndexOf("/") ));
       if(!convertFile.exists()){
@@ -150,7 +155,7 @@ public class FileServiceImpl implements FileService {
       Multimedia mediaHandler = mediaFactory.getMediaHandler(Multimedia.TYPE_VEDIO);
       mediaHandler.convert(fullImagePath, fileRoot + "/convert/" + relativePath);
       relativePath = "convert/" + relativePath;
-    }else if(prefix.toLowerCase().contains("mp3")){
+    }else if(prefix.toLowerCase().contains(mp3)){
       //创建转换文件的目录
       File convertFile = new File(fileRoot + "/convert/"+relativePath.substring(0,relativePath.lastIndexOf("/") ));
       if(!convertFile.exists()){

@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 
 
 /**
@@ -26,7 +27,7 @@ import org.springframework.web.bind.annotation.RestController;
  * 安全控制器
  **/
 @RestController
-@RequestMapping("/v1/security")
+@RequestMapping("/v1/login")
 public class SecurityController extends BaseController{
   @Autowired
   private UserService userService;
@@ -89,10 +90,19 @@ public class SecurityController extends BaseController{
    * 1、http://localhost:8080/admin/views/login/login.htmlklkk 登陆成功后访问错误地址（获取不到）
    * 2、crsftoken失效/未传递（不能获取）
    * 3、返回404，找不到资源
+   * HandlerMethodArgumentResolver 方法参数的来源
    */
   @RequestMapping(value = "/error",  method = {RequestMethod.GET, RequestMethod.POST})
-  public ResponseModel error() {
-    ResponseModel responseModel = new ResponseModel(ResponseCode._404);
+  public ResponseModel error(HttpServletRequest request) {
+
+    Integer statusCode = (Integer) request.getAttribute("javax.servlet.error.status_code");
+    String errorMsg = "好像出错了呢！";
+    ResponseModel responseModel = null;
+    if (statusCode.equals(Integer.valueOf(ResponseCode._404.getCode()))) {
+      responseModel = new ResponseModel(ResponseCode._404);
+    }else{
+      responseModel = new ResponseModel(ResponseCode._405);
+    }
     return responseModel;
   }
 

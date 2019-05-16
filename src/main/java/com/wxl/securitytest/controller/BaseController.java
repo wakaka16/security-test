@@ -1,10 +1,10 @@
 package com.wxl.securitytest.controller;
 
 import com.wxl.securitytest.common.exception.CustomException;
+import com.wxl.securitytest.entity.BaseUuidEntity;
+import com.wxl.securitytest.entity.UserEntity;
 import com.wxl.securitytest.pojo.ResponseCode;
 import com.wxl.securitytest.pojo.ResponseModel;
-import com.wxl.securitytest.entity.UserEntity;
-import com.wxl.securitytest.entity.UuidEntity;
 import com.wxl.securitytest.service.UserService;
 import java.io.IOException;
 import java.io.OutputStream;
@@ -19,7 +19,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.lang3.Validate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,6 +29,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 /**
  * 基础controller 其它controller要共用的一些方法
+ * @author wxl
  */
 public class BaseController {
 
@@ -80,7 +80,7 @@ public class BaseController {
   /**
    * =========================开始============================
    */
-  protected <T extends UuidEntity> ResponseModel buildHttpResult(Iterable<T> page,
+  protected <T extends BaseUuidEntity> ResponseModel buildHttpResult(Iterable<T> page,
       String... properties) {
     ResponseModel result = new ResponseModel();
 
@@ -95,7 +95,7 @@ public class BaseController {
     return result;
   }
 
-  protected <T extends UuidEntity> ResponseModel buildHttpResult(Collection<T> entities,
+  protected <T extends BaseUuidEntity> ResponseModel buildHttpResult(Collection<T> entities,
       String... properties) {
     ResponseModel result = new ResponseModel();
 
@@ -112,7 +112,7 @@ public class BaseController {
     return result;
   }
 
-  protected <T extends UuidEntity> ResponseModel buildHttpResult(T entity, String... properties) {
+  protected <T extends BaseUuidEntity> ResponseModel buildHttpResult(T entity, String... properties) {
     ResponseModel result = new ResponseModel();
     if (entity == null || properties == null) {
       return result;
@@ -152,7 +152,7 @@ public class BaseController {
   //去关联的方法
   /**=========================开始============================*/
   /**
-   * 该工具用来去除实体对象中的属性关联。支持集合内部的对象属性去除。<br> 注意，进行属性引用去除的对象必须是UuidEntity的子类示例对象
+   * 该工具用来去除实体对象中的属性关联。支持集合内部的对象属性去除。<br> 注意，进行属性引用去除的对象必须是BaseUuidEntity的子类示例对象
    *
    * @param entity 目标对象
    * @param properties 要去除的属性<br>
@@ -169,7 +169,7 @@ public class BaseController {
    * </example>
    * </pre>
    */
-  private <T extends UuidEntity> void filterProperties(T entity, String... properties) {
+  private <T extends BaseUuidEntity> void filterProperties(T entity, String... properties) {
     if (entity == null || properties == null) {
       return;
     }
@@ -226,10 +226,10 @@ public class BaseController {
       Object nextObject = getMethod.invoke(currentObject);
 
       /*
-       * 那么是不是进入内部呢？还要以以下判断条件为准: 1、这个属性必须是UuidEntity的子类 2、这个属性本来不为null 3、这个属性所对应的类没有在已进入的递归列表中
+       * 那么是不是进入内部呢？还要以以下判断条件为准: 1、这个属性必须是BaseUuidEntity的子类 2、这个属性本来不为null 3、这个属性所对应的类没有在已进入的递归列表中
        */
       // 如果条件成立，说明是单一对象
-      if (nextObject != null && nextObject instanceof UuidEntity
+      if (nextObject != null && nextObject instanceof BaseUuidEntity
           && !stackClasses.contains(fieldClass)) {
         stackClasses.push(fieldClass);
         filterProperty(nextFieldName, nextObject, stackClasses);
@@ -240,7 +240,7 @@ public class BaseController {
         Collection<?> collections = (Collection<?>) nextObject;
         for (Object propertyObject : collections) {
           Class<?> propertyClass = propertyObject.getClass();
-          if (!(propertyObject instanceof UuidEntity)) {
+          if (!(propertyObject instanceof BaseUuidEntity)) {
             break;
           }
           stackClasses.push(propertyClass);

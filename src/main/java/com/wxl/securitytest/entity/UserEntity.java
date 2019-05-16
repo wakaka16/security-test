@@ -9,6 +9,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import io.swagger.annotations.ApiModelProperty;
 import java.util.Date;
+import java.util.List;
 import java.util.Set;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -64,7 +65,7 @@ public class UserEntity extends BaseUuidEntity {
    */
   @ManyToMany(fetch = FetchType.LAZY, mappedBy = "users")
   @JsonIgnoreProperties("users")
-  private Set<RoleEntity> roles;
+  private List<RoleEntity> roles;
 
   /**
    * 创建人
@@ -96,7 +97,6 @@ public class UserEntity extends BaseUuidEntity {
 
   /**
    * getter setter
-   * @return
    */
   public String getAccount() {
     return account;
@@ -138,11 +138,7 @@ public class UserEntity extends BaseUuidEntity {
     this.lastLoginTime = lastLoginTime;
   }
 
-  public Set<RoleEntity> getRoles() {
-    return roles;
-  }
-
-  public void setRoles(Set<RoleEntity> roles) {
+  public void setRoles(List<RoleEntity> roles) {
     this.roles = roles;
   }
 

@@ -3,6 +3,7 @@ package com.wxl.securitytest.entity;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import io.swagger.annotations.ApiModelProperty;
 import java.util.Date;
+import java.util.List;
 import java.util.Set;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -51,7 +52,7 @@ public class ResourceEntity extends BaseUuidEntity {
   @JoinTable(name = "t_role_resource", joinColumns = {
       @JoinColumn(name = "role_id")}, inverseJoinColumns = {@JoinColumn(name = "resource_id")})
   @JsonIgnoreProperties("resources")
-  private Set<RoleEntity> roles;
+  private List<RoleEntity> roles;
 
   /**
    * 创建人
@@ -109,11 +110,11 @@ public class ResourceEntity extends BaseUuidEntity {
     this.methods = methods;
   }
 
-  public Set<RoleEntity> getRoles() {
+  public List<RoleEntity> getRoles() {
     return roles;
   }
 
-  public void setRoles(Set<RoleEntity> roles) {
+  public void setRoles(List<RoleEntity> roles) {
     this.roles = roles;
   }
 

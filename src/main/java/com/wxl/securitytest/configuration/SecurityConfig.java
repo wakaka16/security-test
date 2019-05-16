@@ -88,17 +88,17 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         // 提供给前端登录请求点在form表单中请求，会进入securityService
         .loginProcessingUrl("/login")
         // 登录失败，返回到这里
-        .failureForwardUrl("/v1/security/loginFail")
+        .failureForwardUrl("/v1/login/loginFail")
         // 登录成功后，默认到这个URL，返回登录成功后的信息
-        .successForwardUrl("/v1/security/loginSuccess")
+        .successForwardUrl("/v1/login/loginSuccess")
         .and()
 
         /**==================设定登出后的url地址==================**/
         .logout()
         // 登出页面
-        .logoutUrl("/v1/security/logout")
+        .logoutUrl("/v1/login/logout")
         // 登录成功后
-        .logoutSuccessUrl("/v1/security/logoutSuccess")
+        .logoutSuccessUrl("/v1/login/logoutSuccess")
         .and()
 
         /**==================关闭/开启csrf==================**/

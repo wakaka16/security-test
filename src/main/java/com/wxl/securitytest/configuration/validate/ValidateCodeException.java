@@ -8,6 +8,8 @@ import org.springframework.security.core.AuthenticationException;
  */
 public class ValidateCodeException extends AuthenticationException {
 
+  private static final long serialVersionUID = -3311409982889114576L;
+
   public ValidateCodeException(String msg) {
     super(msg);
   }
