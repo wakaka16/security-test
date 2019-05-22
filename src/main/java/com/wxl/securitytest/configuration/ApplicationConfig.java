@@ -11,12 +11,11 @@ import org.springframework.stereotype.Component;
 
 
 /**
- * 数据初始化配置，以保证整个系统在保证最小化数据完成性的基础上能够使用
- *
- * @author yinwenjie
+ * 应用启动数据初始化配置
+ * @author wxl
  */
 @Component
-public class SystemInitConfig implements CommandLineRunner {
+public class ApplicationConfig implements CommandLineRunner {
 
   @Autowired
   private RoleService roleService;

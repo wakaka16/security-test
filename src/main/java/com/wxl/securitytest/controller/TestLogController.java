@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @RequestMapping(value = "/v1/log")
-public class LogTestController extends BaseController{
+public class TestLogController extends BaseController{
 
   /**
    * 日志的输出与log中的clazz有关

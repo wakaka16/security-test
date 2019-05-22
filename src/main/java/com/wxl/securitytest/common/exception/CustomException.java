@@ -1,12 +1,11 @@
 package com.wxl.securitytest.common.exception;
 
-import com.wxl.securitytest.entity.UuidEntity;
 import org.apache.commons.lang3.StringUtils;
 
 /**
  * @author wangxiaolong
  * @date 2019/2/20 17:50
- * 自定义异常
+ * 业务异常
  */
 public class CustomException extends RuntimeException {
 

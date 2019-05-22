@@ -8,7 +8,9 @@ import javax.persistence.ManyToOne;
  * @author wangxiaolong
  * @date 2019/4/28 10:26
  */
-public class DemoEntity {
+public class DemoEntity extends BaseUuidEntity{
+
+  private static final long serialVersionUID = -4984685739284701451L;
 
 //  一个部门管辖范围
 //  @ApiModelProperty(hidden = true)

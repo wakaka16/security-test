@@ -17,18 +17,27 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 
+
+
+
+@Configuration
+/**
+ * 这个注解的作用等同于
+ */
+@EnableWebSecurity
+/**
+ * 结合@PreAuthorize("hasRole(‘admin‘)")使用，
+ */
+@EnableGlobalMethodSecurity(prePostEnabled = true)
 /**
  * @Author wxl
  * @Date 2018/12/13
+ * 安全配置： 每一次访问url都会经过这里， 不需要被保护的URL是可以直接访问
+ * 被保护的任何URL在访问时，都会进入accessFail 登陆点/login提供唯一入口
  **/
+public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-/**
- * 安全配置： 每一次访问url都会经过这里， 不需要被保护的URL是可以直接访问 被保护的任何URL在访问时，都会进入accessFail 登陆点/login提供唯一入口
- */
-@Configuration
-@EnableWebSecurity//这个注解的作用等同于
-@EnableGlobalMethodSecurity(prePostEnabled = true)//结合@PreAuthorize("hasRole(‘admin‘)")使用，
-//
+  //
 //@EnableGlobalMethodSecurity(prePostEnabled=true)
 //         使用表达式时间方法级别的安全性 4个注解可用
 //
@@ -36,7 +45,6 @@ import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 //@PostAuthorize 允许方法调用,但是如果表达式计算结果为false,将抛出一个安全性异常
 //@PostFilter 允许方法调用,但必须按照表达式来过滤方法的结果
 //@PreFilter 允许方法调用,但必须在进入方法之前过滤输入值
-public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
   /**
    * 忽略权限判断的url
@@ -49,6 +57,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
   /**
    * 配置自己的登录访问接口
    */
+  @Override
   protected void configure(HttpSecurity http) throws Exception {
     /**
      * ignoreUrl：不需要登录即可访问（任何人都可以访问）
@@ -72,22 +81,24 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         //  定义当需要用户登录时候，转到的登录页面。(未登录前，访问未授权的url(错误的)都会重定向到此页面，登录后404)
         .loginPage("/admin/views/login/login.html")
         //usernameParameter和passwordParameter来自页面，不配置默认为username、passWord
-        .usernameParameter("username")//接受参数
-        .passwordParameter("password")//接受参数
+        //接受参数
+        .usernameParameter("username")
+        //接受参数
+        .passwordParameter("password")
         // 提供给前端登录请求点在form表单中请求，会进入securityService
         .loginProcessingUrl("/login")
         // 登录失败，返回到这里
-        .failureForwardUrl("/v1/security/loginFail")
+        .failureForwardUrl("/v1/login/loginFail")
         // 登录成功后，默认到这个URL，返回登录成功后的信息
-        .successForwardUrl("/v1/security/loginSuccess")
+        .successForwardUrl("/v1/login/loginSuccess")
         .and()
 
         /**==================设定登出后的url地址==================**/
         .logout()
         // 登出页面
-        .logoutUrl("/v1/security/logout")
+        .logoutUrl("/v1/login/logout")
         // 登录成功后
-        .logoutSuccessUrl("/v1/security/logoutSuccess")
+        .logoutSuccessUrl("/v1/login/logoutSuccess")
         .and()
 
         /**==================关闭/开启csrf==================**/
@@ -97,9 +108,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         .and()
         /**==================开启rememberMe(会话状态保持)==================**/
         .rememberMe()
-        .tokenValiditySeconds(100 * 24 * 60 * 60)//设置参数，持续化登录，登录时间为100天//默认0关闭浏览器失效
-        .rememberMeCookieName("remember_me")//设置参数，默认remember-me
-        .rememberMeParameter("remember_me")//接受参数，默认remember-me，但是页面不支持，所以重新定义
+        //设置参数，持续化登录，登录时间为100天//默认0关闭浏览器失效
+        .tokenValiditySeconds(100 * 24 * 60 * 60)
+        //设置参数，默认remember-me
+        .rememberMeCookieName("remember_me")
+        //接受参数，默认remember-me，但是页面不支持，所以重新定义
+        .rememberMeParameter("remember_me")
 //        .alwaysRemember(true)//后台服务主动开启remember-me功能
     ;
   }
@@ -139,6 +153,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     return provider;
   }
 
+  @Override
   @Bean
   public UserDetailsService userDetailsService() {
     return new CustomUserDetailsService();

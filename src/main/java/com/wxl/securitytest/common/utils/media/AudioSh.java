@@ -6,6 +6,7 @@ import org.springframework.stereotype.Component;
 
 /**
  * 音频统一转换工具
+ * @author wxl
  */
 @Component
 public class AudioSh implements Multimedia {

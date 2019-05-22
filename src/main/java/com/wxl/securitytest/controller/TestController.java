@@ -6,8 +6,6 @@ import com.wxl.securitytest.entity.RoleEntity;
 import com.wxl.securitytest.entity.UserEntity;
 import com.wxl.securitytest.pojo.ResponseModel;
 import com.wxl.securitytest.repository.UserRepository;
-import com.wxl.securitytest.service.DiService;
-import com.wxl.securitytest.service.RoleService;
 import com.wxl.securitytest.service.UserService;
 import com.wxl.securitytest.service.internal.AsyncService;
 import javax.servlet.http.HttpServletRequest;
@@ -46,10 +44,7 @@ public class TestController extends BaseController {
   private UserRepository userRepository;
   @Autowired
   private UserService userService;
-  @Autowired
-  private RoleService roleService;
-  @Autowired
-  private DiService diService;
+
 
   //findOne
 //  @GetMapping("/findOne/{id}")
@@ -64,14 +59,7 @@ public class TestController extends BaseController {
     return "hello";
   }
 
-  //findOne
-  @GetMapping("/findOne/{id}")
-  public ResponseModel findOne(@PathVariable(value = "id") String id){
-    RoleEntity roleEntity = roleService.getById(id);
-    return this.buildHttpResult(roleEntity);
-  }
 
-  //save
   @GetMapping("/save")
   public ResponseModel save(){
     UserEntity one = new UserEntity();

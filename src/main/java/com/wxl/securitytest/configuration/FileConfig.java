@@ -15,12 +15,16 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class FileConfig {
 
-  //最大允许的文件上传大小（单位MB）
+  /**
+   * 最大允许的文件上传大小（单位MB）
+   */
   @Value("${filePath.maxFileSize}")
   private Integer maxFileSize;
 
 
-  //文件上传路径（单位MB）
+  /**
+   * 文件上传路径（单位MB）
+   */
   @Value("${filePath.fileRoot}")
   private String fileRoot;
 

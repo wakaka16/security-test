@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 
 /**
  * 权限决定的管理器
+ * @author wxl
  */
 @Service
 public class CustomAccessDecisionManager implements AccessDecisionManager {

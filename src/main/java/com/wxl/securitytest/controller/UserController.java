@@ -5,10 +5,8 @@ package com.wxl.securitytest.controller;
  * @Date 2018/12/13
  **/
 
-import com.alibaba.fastjson.JSONArray;
-import com.alibaba.fastjson.JSONObject;
-import com.wxl.securitytest.pojo.ResponseModel;
 import com.wxl.securitytest.entity.UserEntity;
+import com.wxl.securitytest.pojo.ResponseModel;
 import com.wxl.securitytest.service.UserService;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -20,7 +18,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -29,6 +26,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 /**
  * 用户控制器
+ * @author wxl
  */
 @RestController
 @RequestMapping(value = "/v1/user")
@@ -53,9 +51,9 @@ public class UserController extends BaseController {
       @PageableDefault(value = 20, sort = "createDate", direction = Direction.DESC) Pageable pageable,
       Principal operator) {
     //验证必须登录
-//    this.verifyOperatorLogin(operator);
+    //this.verifyOperatorLogin(operator);
     //输入条件
-    Map<String, Object> condition = new HashMap<>();
+    Map<String, Object> condition = new HashMap<>(16);
     if (!StringUtils.isBlank(account)) {
       condition.put("account", account);
     }

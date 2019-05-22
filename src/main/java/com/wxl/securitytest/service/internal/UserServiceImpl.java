@@ -11,6 +11,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import javax.transaction.Transactional;
+import javax.transaction.Transactional.TxType;
 import org.apache.commons.lang3.Validate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -56,7 +57,7 @@ public class UserServiceImpl implements UserService {
     return user;
   }
 
-  @Transactional
+  @Transactional(value = TxType.REQUIRED,rollbackOn = Exception.class)
   @Override
   public void updateLoginTimeById(String id) {
     CustomException.notBlank(id,"ID"+Const.ERROR_CAN_NOT_BE_NULL);
@@ -75,7 +76,7 @@ public class UserServiceImpl implements UserService {
     return userRepository.getByAccount(account);
   }
 
-  @Transactional
+  @Transactional(value = TxType.REQUIRED,rollbackOn = Exception.class)
   @Override
   public List<UserEntity> listAll() {
     return userRepository.findAll();
