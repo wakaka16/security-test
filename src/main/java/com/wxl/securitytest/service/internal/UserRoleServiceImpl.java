@@ -6,19 +6,22 @@ import com.wxl.securitytest.entity.RoleEntity;
 import com.wxl.securitytest.entity.UserEntity;
 import com.wxl.securitytest.repository.UserRepository;
 import com.wxl.securitytest.repository.UserRoleRepository;
+import com.wxl.securitytest.service.BaseService;
 import com.wxl.securitytest.service.RoleService;
 import com.wxl.securitytest.service.UserRoleService;
 import com.wxl.securitytest.service.UserService;
 import javax.transaction.Transactional;
+import javax.transaction.Transactional.TxType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 /**
  * @author wangxiaolong
  * @date 2019/4/28 15:04
+ * 中间表的service
  */
 @Service
-public class UserRoleServiceImpl implements UserRoleService {
+public class UserRoleServiceImpl extends BaseService implements UserRoleService {
 
   @Autowired
   private UserRoleRepository userRoleRepository;
@@ -27,7 +30,7 @@ public class UserRoleServiceImpl implements UserRoleService {
   @Autowired
   private RoleService roleService;
 
-  @Transactional
+  @Transactional(value = TxType.REQUIRED,rollbackOn = Exception.class)
   @Override
   public void create(String userId, String roleId) {
     CustomException.notBlank(userId,"USERID"+ Const.ERROR_CAN_NOT_BE_NULL);

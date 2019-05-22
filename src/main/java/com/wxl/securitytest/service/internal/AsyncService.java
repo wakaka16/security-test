@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class AsyncService {
 
-  @Async(value = "threadCache")
+  @Async
   public void async(){
     try {
       Thread.sleep(5000);

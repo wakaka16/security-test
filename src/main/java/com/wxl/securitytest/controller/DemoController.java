@@ -6,6 +6,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import java.util.List;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -27,14 +28,18 @@ public class DemoController {
   private DemoService demoService;
 
 
-  @ApiOperation(value = "模板列表")
-  @GetMapping(value = "/list")
-  public List<DemoEntity> list(
-      @ApiParam(value = "name",name = "模板名称",required = true)
-      @RequestParam(value = "name",name = "模板名称",required = true)
-          String name){
-    return demoService.findByName(name);
-  }
+//  public void  test(){
+//    BeanUtils.copyProperties();
+//  }
+
+//  @ApiOperation(value = "模板列表")
+//  @GetMapping(value = "/list")
+//  public List<DemoEntity> list(
+//      @ApiParam(value = "name",name = "模板名称",required = true)
+//      @RequestParam(value = "name",name = "模板名称",required = true)
+//          String name){
+//    return demoService.findByName(name);
+//  }
 
 
 

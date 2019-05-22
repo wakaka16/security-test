@@ -9,12 +9,14 @@ import com.wxl.securitytest.repository.RoleRepository;
 import com.wxl.securitytest.repository.UserRepository;
 import com.wxl.securitytest.service.UserService;
 import java.util.Date;
+import java.util.List;
 import java.util.Set;
 import javax.transaction.Transactional;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 
 /**
@@ -22,6 +24,7 @@ import org.springframework.test.context.junit4.SpringRunner;
  */
 @RunWith(SpringRunner.class)
 @SpringBootTest
+@ActiveProfiles(value = {"test"})
 public class SecurityTestApplicationTests {
 
   @Autowired
@@ -98,7 +101,7 @@ public class SecurityTestApplicationTests {
   @Test
   public void findDistinctByUsersEquals(){
     UserEntity one = userRepository.findOne("56326ea8-6a12-4684-8c81-955836928c54");
-    Set<RoleEntity> roleList = roleRepository.findDistinctByUsersEquals(one);
+    List<RoleEntity> roleList = roleRepository.findDistinctByUsersEquals(one);
     System.out.println(roleList.size());
   }
 

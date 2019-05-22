@@ -1,7 +1,7 @@
 package com.wxl.securitytest.configuration;
 
-import com.wxl.securitytest.configuration.validate.ValidateCodeFilter;
 import com.wxl.securitytest.service.security.CustomUserDetailsService;
+import com.wxl.starters.validatecodestarter.filter.ImageValidateCodeFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -25,9 +25,6 @@ import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
  * 这个注解的作用等同于
  */
 @EnableWebSecurity
-/**
- * 结合@PreAuthorize("hasRole(‘admin‘)")使用，
- */
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 /**
  * @Author wxl
@@ -37,22 +34,14 @@ import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
  **/
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-  //
-//@EnableGlobalMethodSecurity(prePostEnabled=true)
-//         使用表达式时间方法级别的安全性 4个注解可用
-//
-//@PreAuthorize 在方法调用之前,基于表达式的计算结果来限制对方法的访问
-//@PostAuthorize 允许方法调用,但是如果表达式计算结果为false,将抛出一个安全性异常
-//@PostFilter 允许方法调用,但必须按照表达式来过滤方法的结果
-//@PreFilter 允许方法调用,但必须在进入方法之前过滤输入值
-
   /**
    * 忽略权限判断的url
    */
   @Value("${author.ignoreUrls}")
   private String[] ignoreUrls;
+
   @Autowired
-  private ValidateCodeFilter validateCodeFilter;
+  private ImageValidateCodeFilter imageValidateCodeFilter;
 
   /**
    * 配置自己的登录访问接口
@@ -67,7 +56,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
      * 我个人认为：如果没有对url绑定角色，那么所有的登录用户角色就应该都能访问()
      */
     http
-        .addFilterBefore(validateCodeFilter, UsernamePasswordAuthenticationFilter.class)
+        .addFilterBefore(imageValidateCodeFilter, UsernamePasswordAuthenticationFilter.class)
         /**==================设定url的访问权限(请求授权)==================**/
         .authorizeRequests()
         //以下URL不需要被保护的资源(1、后台url 2、静态资源路径)

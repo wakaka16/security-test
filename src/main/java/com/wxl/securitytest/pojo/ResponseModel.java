@@ -1,6 +1,5 @@
 package com.wxl.securitytest.pojo;
 
-import java.util.Date;
 
 /**
  * 统一返回数据对象（对本次请求执行的操作结果是否成功 进行描述 flag=1时执行成功）
@@ -9,8 +8,11 @@ import java.util.Date;
  * 
  */
 public class ResponseModel {
-  /** 时间 */
-  private Long timestemp = new Date().getTime();
+
+  /**
+   * 时间戳
+   */
+  private Long timestemp = System.currentTimeMillis();
   /**
    * 正常情况下返回的数据在这里进行记录和描述
    */
@@ -19,7 +21,9 @@ public class ResponseModel {
    * 响应标记，正常情况下是200
    */
   private String code = ResponseCode._200.getCode();
-  /** 异常信息描述 */
+  /**
+   * 异常信息描述
+   */
   private String errorMsg = ResponseCode._200.getMessage();
   
   public ResponseModel() {

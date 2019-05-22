@@ -3,6 +3,7 @@ package com.wxl.securitytest.service.internal;
 import com.wxl.securitytest.common.utils.media.MediaFactory;
 import com.wxl.securitytest.common.utils.media.Multimedia;
 import com.wxl.securitytest.pojo.FilePojo;
+import com.wxl.securitytest.service.BaseService;
 import com.wxl.securitytest.service.FileService;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -26,12 +27,8 @@ import org.springframework.web.multipart.MultipartFile;
  * @Date 2018/12/7
  **/
 @Service
-public class FileServiceImpl implements FileService {
+public class FileServiceImpl extends BaseService implements FileService {
 
-  /**
-   * 日志
-   * */
-  private static final Log LOGGER = LogFactory.getLog(FileServiceImpl.class);
   /**
    * 保存文件的根路径描述
    */

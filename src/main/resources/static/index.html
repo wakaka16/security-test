@@ -6,5 +6,13 @@
 </head>
 <body>
 <h1>输入ip+端口（域名）直接访问</h1>
+
+<div>
+  <input class="code-input" ng-model="verifycode" type="text" placeholder="输入验证码">
+  <img src="/v1/validateCode/image/?width=100" onclick="this.src=this.src+'?'+Math.random()" id="img"
+       class="code-img" alt="">
+  <span class="fa fa-refresh refresh-icon" title="刷新" onclick="document.getElementById('img').onclick()"></span>
+</div>
+<button>登录</button>
 </body>
 </html>

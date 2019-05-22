@@ -4,6 +4,7 @@ import com.wxl.securitytest.entity.ResourceEntity;
 import com.wxl.securitytest.entity.RoleEntity;
 import com.wxl.securitytest.entity.UserEntity;
 import com.wxl.securitytest.repository.RoleRepository;
+import com.wxl.securitytest.service.BaseService;
 import com.wxl.securitytest.service.RoleService;
 import java.util.List;
 import java.util.Set;
@@ -16,7 +17,7 @@ import org.springframework.stereotype.Service;
  * @Date 2018/12/18
  **/
 @Service
-public class RoleServiceImpl implements RoleService {
+public class RoleServiceImpl extends BaseService implements RoleService {
 
   @Autowired
   private RoleRepository roleRepository;

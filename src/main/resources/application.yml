@@ -2,6 +2,13 @@
 spring:
   application:
     name: security-test
+#    时间统一格式
+  jackson:
+    time-zone: GMT+8
+#    是否展现为时间戳
+    serialization: false
+    date-format: yyyy-MM-dd
+
 #swagger
 swagger:
   version: v0.0.9
@@ -25,12 +32,16 @@ video:
   convert-config: /data_spring/t_gbpx/convert.sh
 
 #图形验证码配置
+#验证码组件配置
 validate:
   code:
+    defaultErrorPath: '/v1/login/loginFail'
     image:
       length: 4
       width: 100
-      url: /login
+      height: 23
+      url: '/admin'
+      expireIn: 60
 
 #==================================spring boot应用基本配置end==================================#
 

@@ -1,13 +1,17 @@
 package com.wxl.securitytest.entity;
 
+import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 
 /**
  * @author wangxiaolong
  * @date 2019/4/28 10:26
  */
+@Entity
+@Table(name = "t_demo")
 public class DemoEntity extends BaseUuidEntity{
 
   private static final long serialVersionUID = -4984685739284701451L;

@@ -1,23 +1,38 @@
 package com.wxl.securitytest;
 
+
 import com.wxl.securitytest.entity.UserEntity;
+import com.wxl.securitytest.repository.UserRepository;
 import com.wxl.securitytest.service.UserService;
-import java.util.Date;
+import java.util.ArrayList;
+import java.util.List;
+import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 
 /**
- * @author xulin
+ * @author wxl
  * @date 2019/1/4 16:30
  */
 @RunWith(SpringRunner.class)
 @SpringBootTest
+@ActiveProfiles(value = {"test"})
 public class ServiceTest {
+
+  /**
+   * 桩模块：加入dao层已经完成的情况下测试service层
+   */
+  @MockBean
+  private UserRepository userRepository;
+
   @Autowired
-  UserService userService;
+  private UserService userService;
 
   @Test
   public void create(){
@@ -53,4 +68,32 @@ public class ServiceTest {
 //      try {
 //        return this.internalGetSession().load(entityClass, (Serializable)primaryKey);
 //  }
+
+
+  /**
+   * 测试service或者工具类可以使用这种桩模型进行测试
+   */
+  @Test
+  public void findAll(){
+    //准备数据（桩模型测试）
+    List<UserEntity> userList = new ArrayList<>();
+    UserEntity user = new UserEntity();
+    user.setAccount("3433344");
+    userList.add(user);
+
+    //当userRepository被调用时返回，已准备到的数据
+    Mockito.when( userRepository.findAll()).thenReturn(userList);
+
+    //userService调用
+    List<UserEntity> userList2 = userService.listAll();
+
+    //断言测试
+    Assert.assertTrue(userList.size()==userList2.size());
+    Assert.assertTrue(userList.size()==1);
+
+  }
+
+
+
+
 }

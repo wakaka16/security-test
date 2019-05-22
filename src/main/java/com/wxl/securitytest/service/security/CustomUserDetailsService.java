@@ -38,13 +38,14 @@ public class CustomUserDetailsService implements UserDetailsService {
     Validate.notNull(user, "account or password error");
     // 查询用户角色信息
     List<RoleEntity> roles =  this.roleService.findByUser(user);
-    Validate.notEmpty(roles, "user not have role,please contact this manager");
     //收集角色信息形成authorities集合对象
     List<SimpleGrantedAuthority> authorities = new LinkedList<>();
     for (RoleEntity role : roles) {
       SimpleGrantedAuthority authority = new SimpleGrantedAuthority(role.getName());
       authorities.add(authority);
     }
+    //添加匿名角色（可以访问所有未加入数据库、加入了但是没有分配角色的资源）
+    authorities.add(new SimpleGrantedAuthority("ROLE_ANONYMOUS"));
     //创建安全用户
     return new User(username, user.getPassword(), authorities);
   }

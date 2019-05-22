@@ -10,6 +10,9 @@ import com.wxl.securitytest.service.UserService;
 import com.wxl.securitytest.service.internal.AsyncService;
 import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PostAuthorize;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -61,6 +64,17 @@ public class TestController extends BaseController {
 
 
   @GetMapping("/save")
+  /**
+   * 一下这种方式是权限过去死板，不推荐使用
+   */
+  //以ROLE_*开头为role，hasRole（‘user’）
+//    new SimpleGrantedAuthority("ROLE_user");
+  //否则就是权限，hasAuthority（‘query’）
+//    new SimpleGrantedAuthority("query");
+//  @PreAuthorize
+//  注解适合进入方法前的权限验证， @PreAuthorize可以将登录用户的roles/permissions参数传到方法中。
+//  @PostAuthorize
+//  注解使用并不多，在方法执行后再进行权限验证
   public ResponseModel save(){
     UserEntity one = new UserEntity();
     one.setName("wakakaFlush");
@@ -72,6 +86,8 @@ public class TestController extends BaseController {
 
   @PostMapping(value = "/csrfPost")
   public String csrfPost(){
+
+//    HttpStatus
     return "csrfPost";
   }
 

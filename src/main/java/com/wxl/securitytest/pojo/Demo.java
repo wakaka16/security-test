@@ -1,12 +1,14 @@
 package com.wxl.securitytest.pojo;
 
 import com.wxl.securitytest.pojo.group.First;
+import javax.validation.Valid;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotEmpty;
+import org.springframework.format.annotation.DateTimeFormat;
 
 /**
  * @author wangxiaolong
@@ -18,9 +20,11 @@ public class Demo {
   @NotEmpty(groups = {First.class},message = "name can not be null")
   @Size(min=3,max=8,message = "3-8个字符")
   @Pattern(regexp = "[0-9]*",message = "只能为数字")
-  @Max(value = 15165156L,message = "最大值")
+  @Max(value = 15165156L,message = "最大值",groups = {First.class})
   @Min(value = 0L)
   @Email(message = "邮件格式")
+//  级联验证 @Valid
+  @DateTimeFormat(pattern = "yyyy-MM-dd")
   private String name;
 
   public Demo(){

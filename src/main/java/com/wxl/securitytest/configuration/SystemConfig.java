@@ -15,7 +15,7 @@ import org.springframework.stereotype.Component;
  * @author wxl
  */
 @Component
-public class ApplicationConfig implements CommandLineRunner {
+public class SystemConfig implements CommandLineRunner {
 
   @Autowired
   private RoleService roleService;
@@ -64,6 +64,6 @@ public class ApplicationConfig implements CommandLineRunner {
 
   @Override
   public void run(String... args) throws Exception {
-    this.initAdmin();
+//    this.initAdmin();
   }
 }

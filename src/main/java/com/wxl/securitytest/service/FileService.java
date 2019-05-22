@@ -2,6 +2,7 @@ package com.wxl.securitytest.service;
 
 import com.wxl.securitytest.pojo.FilePojo;
 import java.io.IOException;
+import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.web.multipart.MultipartFile;
 
 /**

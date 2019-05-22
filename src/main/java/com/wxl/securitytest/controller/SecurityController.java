@@ -1,10 +1,11 @@
 package com.wxl.securitytest.controller;
 
-import com.wxl.securitytest.configuration.validate.ValidateCodeException;
+import com.wxl.securitytest.entity.UserEntity;
 import com.wxl.securitytest.pojo.ResponseCode;
 import com.wxl.securitytest.pojo.ResponseModel;
-import com.wxl.securitytest.entity.UserEntity;
 import com.wxl.securitytest.service.UserService;
+import com.wxl.starters.validatecodestarter.constant.ValidateCode;
+import com.wxl.starters.validatecodestarter.exception.ValidateCodeException;
 import java.security.Principal;
 import java.util.Date;
 import javax.servlet.http.Cookie;
@@ -18,7 +19,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 
 
 /**
@@ -53,11 +53,14 @@ public class SecurityController extends BaseController{
     }else if(attribute instanceof BadCredentialsException){
       //密码
       e=new IllegalArgumentException("用户名或密码错误");
-    }else if(attribute instanceof ValidateCodeException){
-      ValidateCodeException exception = (ValidateCodeException) attribute;
-      e=new IllegalArgumentException(exception.getMessage());
-    } else{
+    }else{
       e=new IllegalArgumentException("登录过期，请进行登录...");
+    }
+    //验证码错误
+    Object validateException = request.getAttribute(ValidateCode.VALIDATE_CODE_EXCEPTION);
+    if(null!=validateException){
+      ValidateCodeException exception = (ValidateCodeException) validateException;
+      e=new IllegalArgumentException(exception.getMessage());
     }
     return this.buildHttpResultForException(e);
   }

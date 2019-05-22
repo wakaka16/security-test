@@ -18,7 +18,6 @@ public class ErrorConfig implements ErrorPageRegistrar {
   public void registerErrorPages(ErrorPageRegistry registry) {
     ErrorPage errorPage = new ErrorPage("/v1/security/error");
     registry.addErrorPages(errorPage);
-
   }
 
 

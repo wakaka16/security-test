@@ -25,5 +25,5 @@ public interface DemoRepository extends
    * @param name
    * @return
    */
-  List<DemoEntity> findByName(String name);
+//  List<DemoEntity> findByName(String name);
 }

@@ -22,7 +22,7 @@ spring:
 
 #授权处理
 author:
-#不需要登录即可直接访问的url
+#**不需要登录**即可直接访问的url
 #  /admin/login.html,/v1/security/loginFail,/v1/user/hello,/login,/v1/security/loginSuccess,/favicon.ico,/v1/security/logoutSuccess
   ignoreUrls: /**
 

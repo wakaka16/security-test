@@ -58,17 +58,5 @@ public class GlobalExceptionHandler {
     return responseModel;
   }
 
-  /**
-   * 数据异常处理
-   * @param e
-   * @return
-   */
-  @ExceptionHandler(DataBaseException.class)
-  ResponseModel handleDataBaseException(DataBaseException e){
-    LOG.error(e.getMessage());
-    ResponseModel responseModel = new ResponseModel(ResponseCode._501);
-    responseModel.setErrorMsg("数据操作异常");
-    return responseModel;
-  }
 
 }

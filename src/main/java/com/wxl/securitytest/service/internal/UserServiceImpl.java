@@ -6,6 +6,7 @@ import com.wxl.securitytest.common.utils.StringValidateUtils;
 import com.wxl.securitytest.entity.UserEntity;
 import com.wxl.securitytest.repository.UserRepository;
 import com.wxl.securitytest.repository.internal.UserDao;
+import com.wxl.securitytest.service.BaseService;
 import com.wxl.securitytest.service.UserService;
 import java.util.Date;
 import java.util.List;
@@ -24,7 +25,7 @@ import org.springframework.stereotype.Service;
  * @Date 2018/12/18
  **/
 @Service
-public class UserServiceImpl implements UserService {
+public class UserServiceImpl extends BaseService implements UserService {
 
   @Autowired
   private UserRepository userRepository;

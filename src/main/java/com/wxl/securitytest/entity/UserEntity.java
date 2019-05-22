@@ -173,4 +173,20 @@ public class UserEntity extends BaseUuidEntity {
   public void setModifyDate(Date modifyDate) {
     this.modifyDate = modifyDate;
   }
+
+  @Override
+  public String toString() {
+    return "UserEntity{" +
+        "account='" + account + '\'' +
+        ", name='" + name + '\'' +
+        ", email='" + email + '\'' +
+        ", password='" + password + '\'' +
+        ", lastLoginTime=" + lastLoginTime +
+        ", roles=" + roles +
+        ", creator=" + creator +
+        ", modifier=" + modifier +
+        ", createDate=" + createDate +
+        ", modifyDate=" + modifyDate +
+        '}';
+  }
 }
